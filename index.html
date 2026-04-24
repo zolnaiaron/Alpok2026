@@ -3,9 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timi Magyarországon 2025</title>
+    <title>Alpok 2026 – Program</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
-        /* A teljes háttér konténer, ami tartja a két képet */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Háttér animáció */
         .background-container {
             position: fixed;
             top: 0;
@@ -16,7 +30,6 @@
             z-index: 0;
         }
 
-        /* A két háttérkép-tartó div, amik mozognak és váltanak */
         .background-image {
             position: absolute;
             top: 0;
@@ -25,111 +38,148 @@
             height: 100%;
             background-size: cover;
             background-repeat: no-repeat;
-            background-position: 0 0;
-            opacity: 0; /* Alapból mindkettő láthatatlan */
-            transition: opacity 1.5s ease-in-out; /* Simán átúsztatjuk a képeket */
-            will-change: opacity, transform; /* Kicsi teljesítményjavítás */
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            will-change: opacity;
         }
         
-        /* A jelenleg látható háttérkép */
         .background-image.active {
             opacity: 1;
         }
 
-        /* Sötét overlay a jobb kontrasztért */
         .overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5); /* félátlátszó fekete */
+            background: rgba(0,0,0,0.4); /* sötétítés a jobb olvashatóságért */
             z-index: 1;
         }
 
-        /* Tartalom */
+        /* Fő tartalom tartó */
         .content {
             position: relative;
             z-index: 2;
-            min-height: 100vh;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* Ezt a sort módosítottam */
             align-items: center;
-            text-align: center;
-            color: #fff; /* fehér szöveg */
-            padding: 20px;
-            padding-top: 100px; /* Ezt a sort hozzáadtam */
         }
 
-        .content h1 {
-            margin-bottom: 30px;
-            font-size: 1.8rem;
-            text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.6);
+            letter-spacing: 2px;
         }
 
-        /* Lista */
-        .content ul {
-            list-style: none;
-            padding: 0;
+        /* Visszaszámláló */
+        .countdown-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
         }
 
-        .content li {
-            margin: 15px 0;
-        }
-
-        /* Linkek */
-        .content a {
-            display: inline-block;
-            font-size: 1.2rem;
-            text-decoration: none;
-            color: #fff;
-            background: rgba(0, 0, 0, 0.486); /* sötét háttér a linknek */
-            padding: 12px 25px;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .content a:hover {
-            background: rgba(0,0,0,0.8);
-            transform: scale(1.05);
-        }
-
-        .content a:active {
-            transform: scale(0.95);
-            background: rgba(0,0,0,0.9);
-        }
-
-        /* Visszaszámláló stílusa */
         .countdown {
-            font-size: 1.5rem; /* Ezt a méretet csökkentettem */
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ffd700; /* Arany szín a kiemeléshez */
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Átlátszó program doboz */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 40px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            margin-bottom: 50px;
+        }
+
+        .day-section {
+            margin-bottom: 35px;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: #ffd700;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            padding-bottom: 5px;
+        }
+
+        .program-item {
+            display: flex;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .time {
+            font-weight: 700;
+            min-width: 110px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .desc {
+            flex: 1;
+        }
+
+        .sub-info {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.6);
+            font-style: italic;
+        }
+
+        /* Lista stílusa */
+        .list-container {
+            margin-top: 20px;
+        }
+
+        .list-container ul {
+            list-style: none;
+        }
+
+        .list-container li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .list-container li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #ffd700;
             font-weight: bold;
-            color: #fff;
-            text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
-            padding: 20px;
-            border-radius: 15px;
-            background: rgba(0,0,0,0.5);
-            margin-top: 50px;
         }
 
         /* Mobil optimalizálás */
-        @media (max-width: 480px) {
-            .content h1 {
-                font-size: 1.5rem;
-            }
-
-            .content a {
-                font-size: 1rem;
-                padding: 10px 20px;
-            }
-            
-            .countdown {
-                font-size: 1.2rem; /* Ezt a méretet is csökkentettem */
-            }
+        @media (max-width: 600px) {
+            h1 { font-size: 2.5rem; }
+            .countdown { font-size: 1.1rem; }
+            .glass-panel { padding: 25px; }
+            .program-item { flex-direction: column; margin-bottom: 15px; }
+            .time { margin-bottom: 2px; }
         }
     </style>
 </head>
 <body>
+
     <div class="background-container">
         <div id="bg1" class="background-image"></div>
         <div id="bg2" class="background-image"></div>
@@ -137,27 +187,142 @@
     <div class="overlay"></div>
 
     <div class="content">
-        <h1>Sziaa Timi!</h1>
-        <br>
-        <br>
-        <br>
-        <ul>
-            <li><a href="utazas.html">Utazás Magyarországra, miként és hogyan?</a></li>
-            <li><a href="mitvigyek.html">Mit vigyek magammal?</a></li>
-            <li><a href="mitfogunk.html">Mit fogunk csinálni?</a></li>
-        </ul>
-        <br>
-        <br>
-        <br>
+        <h1>Alpok 2026</h1>
+        
+        <div class="countdown-container">
+            <div class="countdown" id="countdown">Betöltés...</div>
+        </div>
 
-        <!-- Visszaszámláló -->
-        <div class="countdown" id="countdown"></div>
+        <div class="glass-panel">
+            <div class="day-section">
+                <h2>Április 30. Csütörtök</h2>
+                <div class="program-item">
+                    <div class="time">08:00 – 08:50</div>
+                    <div class="desc">Marghitta → Oradea <br><span class="sub-info">(Cento busz: utolsó megálló = Autogara Intrans SA)</span></div>
+                </div>
+                <div class="program-item">
+                    <div class="time">10:15 – 13:25</div>
+                    <div class="desc">Oradea → Budapest Népliget (FlixBus)</div>
+                </div>
+                <div class="program-item">
+                    <div class="time">14:00 után</div>
+                    <div class="desc"><strong>Találkozás</strong>, majd kávézás / könnyű étkezés</div>
+                </div>
+                <div class="program-item">
+                    <div class="time">15:00 – 16:00</div>
+                    <div class="desc">Meglepetés program ✨</div>
+                </div>
+                <div class="program-item">
+                    <div class="time">16:20 – 16:50</div>
+                    <div class="desc">Burger King</div>
+                </div>
+                <div class="program-item">
+                    <div class="time">17:00 – 18:00</div>
+                    <div class="desc">Budapest → Őrbottyán (busz)</div>
+                </div>
+                <div class="program-item">
+                    <div class="time">18:00 – 20:00</div>
+                    <div class="desc">Érkezés, pihenés, család, beszélgetés</div>
+                </div>
+                <div class="program-item">
+                    <div class="time">20:00 – 22:30</div>
+                    <div class="desc">Filmnézés 🍿</div>
+                </div>
+                <div class="program-item">
+                    <div class="time">23:00</div>
+                    <div class="desc">Alvás</div>
+                </div>
+            </div>
+
+            <div class="day-section">
+                <h2>Május 1. Péntek</h2>
+                <div class="program-item">
+                    <div class="time">06:30</div>
+                    <div class="desc">Ébredés</div>
+                </div>
+                <div class="program-item">
+                    <div class="time">07:15</div>
+                    <div class="desc">Reggeli</div>
+                </div>
+                <div class="program-item">
+                    <div class="time">08:00</div>
+                    <div class="desc">Indulás <span class="sub-info">(késés esélyes)</span></div>
+                </div>
+                <div class="program-item">
+                    <div class="time">11:30</div>
+                    <div class="desc">Megálló Sopronban – vásárlás, ebéd lehetősége</div>
+                </div>
+                <div class="program-item">
+                    <div class="time">15:00 körül</div>
+                    <div class="desc">Érkezés a kempinghez 🏕️</div>
+                </div>
+                <div class="program-item">
+                    <div class="time">Délután</div>
+                    <div class="desc">Szabad program</div>
+                </div>
+            </div>
+
+            <div class="day-section">
+                <h2>Május 2. Szombat</h2>
+                <div class="program-item">
+                    <div class="time">07:30</div>
+                    <div class="desc">Ébredés, pakolás, reggeli</div>
+                </div>
+                <div class="program-item">
+                    <div class="time">08:52 – 08:59</div>
+                    <div class="desc">Pichl-Grossdorf → Oberort (Grüner See)</div>
+                </div>
+                <div class="program-item">
+                    <div class="time">09:00</div>
+                    <div class="desc"><strong>Kirándulás indul</strong> 🏔️</div>
+                </div>
+                <div class="program-item">
+                    <div class="time">19:00-ig</div>
+                    <div class="desc">Visszaérkezés legkésőbb</div>
+                </div>
+                <div class="program-item">
+                    <div class="time">Este</div>
+                    <div class="desc">Vacsora, fürdés a tóban, nagy beszélgetések</div>
+                </div>
+            </div>
+
+            <div class="day-section">
+                <h2>Május 3. Vasárnap</h2>
+                <div class="program-item">
+                    <div class="time">08:00</div>
+                    <div class="desc">Ébredés, közös reggeli</div>
+                </div>
+                <div class="program-item">
+                    <div class="time">09:00</div>
+                    <div class="desc">Sátorbontás, pakolás</div>
+                </div>
+                <div class="program-item">
+                    <div class="time">10:00</div>
+                    <div class="desc">Indulás haza</div>
+                </div>
+                <div class="program-item">
+                    <div class="time">17:40 – 21:13</div>
+                    <div class="desc">Budapest Keleti → Nyírábrány <br><span class="sub-info">(román idő szerint érkezés: 22:13)</span></div>
+                </div>
+            </div>
+
+            <div class="day-section list-container">
+                <h2>Mit hozz magaddal?</h2>
+                <ul>
+                    <li>Kényelmes ruhák</li>
+                    <li><strong>Túrázós ruha, túracipő (a legfontosabb!)</strong></li>
+                    <li>Matrac, hálózsák</li>
+                    <li>Fürdőruha, törölköző (a tóban fürdéshez 🏊‍♀️)</li>
+                    <li>Pizsama (az unikornisos is jöhet!)</li>
+                    <li>Fogkefe, tisztálkodási szerek</li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Cél időpont (példa: Szilveszter éjfél)
+        // --- VISSZASZÁMLÁLÓ ---
         const targetDate = new Date("2026-04-30T13:25:00").getTime();
-
         const countdownElement = document.getElementById("countdown");
 
         function updateCountdown() {
@@ -165,7 +330,7 @@
             const distance = targetDate - now;
 
             if (distance <= 0) {
-                countdownElement.innerHTML = "Lejárt!";
+                countdownElement.innerHTML = "ELINDULTUNK! 🏔️";
                 return;
             }
 
@@ -174,15 +339,13 @@
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            countdownElement.innerHTML = 
-                `${days} nap ${hours} óra ${minutes} perc ${seconds} mp`;
+            countdownElement.innerHTML = `${days} nap ${hours} óra ${minutes} perc ${seconds} mp`;
         }
 
         setInterval(updateCountdown, 1000);
         updateCountdown();
-    </script>
-    
-    <script>
+
+        // --- HÁTTÉR ANIMÁCIÓ ---
         document.addEventListener("DOMContentLoaded", () => {
             const images = [
                 "images/hatter1.jpg", 
@@ -197,49 +360,35 @@
             let activeBackground = bg1;
             let inactiveBackground = bg2;
         
-            // Képek előtöltése a gyorsabb betöltés érdekében
             images.forEach(image => {
                 const img = new Image();
                 img.src = image;
             });
 
-            // Kezdeti háttérkép beállítása
             activeBackground.style.backgroundImage = `url(${images[currentImageIndex]})`;
             activeBackground.classList.add('active');
         
             function animateBackground() {
-                // Sebesség csökkentése, hogy lassabban mozogjon a háttér.
-                xPos -= 0.1;
-                activeBackground.style.backgroundPosition = `${xPos}px 0`;
+                xPos -= 0.15; // Kicsit gyorsítottam a mozgáson
+                activeBackground.style.backgroundPosition = `${xPos}px center`;
         
-                // Ha az aktív háttérkép majdnem elhagyta a képernyőt, váltunk
-                // A 200px egy jó távolság a sima átmenethez telefonon is.
-                if (Math.abs(xPos) >= window.innerWidth - 200) {
-                    // Képek cseréje
+                if (Math.abs(xPos) >= window.innerWidth) {
                     currentImageIndex = (currentImageIndex + 1) % images.length;
                     inactiveBackground.style.backgroundImage = `url(${images[currentImageIndex]})`;
                     
-                    // Aktív és inaktív képek cseréje
                     activeBackground.classList.remove('active');
                     inactiveBackground.classList.add('active');
                     
-                    // A váltás után megcseréljük a referenciákat
                     const temp = activeBackground;
                     activeBackground = inactiveBackground;
                     inactiveBackground = temp;
 
-                    // A pozíciót visszaállítjuk, hogy az új kép a helyére kerüljön.
                     xPos = 0;
                 }
-        
                 requestAnimationFrame(animateBackground);
             }
-        
-            // Az animáció indítása a DOM betöltése után
             animateBackground();
         });
     </script>
 </body>
 </html>
-
-
