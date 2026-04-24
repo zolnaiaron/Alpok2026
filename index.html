@@ -31,7 +31,6 @@
             position: absolute;
             top: 0;
             left: 0;
-            /* Kicsit szélesebbre vesszük, hogy legyen tere mozogni jobbról balra */
             width: 110vw; 
             height: 105vh;
             background-size: cover;
@@ -42,7 +41,6 @@
 
         .bg-image.active {
             opacity: 1;
-            /* 15 másodperces animáció, ami balra tolja a képet */
             animation: panLeft 15s linear forwards;
         }
 
@@ -51,7 +49,7 @@
             100% { transform: translateX(-5vw); }
         }
 
-        /* Sötétítő réteg, hogy a szöveg olvasható legyen */
+        /* Sötétítő réteg */
         .overlay {
             position: fixed;
             top: 0;
@@ -62,7 +60,7 @@
             z-index: -1;
         }
 
-        /* Tartalom középre igazítása */
+        /* Tartalom */
         .content {
             position: relative;
             z-index: 1;
@@ -81,7 +79,6 @@
             text-align: center;
         }
 
-        /* Visszaszámláló doboz */
         .countdown {
             font-size: 1.5rem;
             font-weight: 700;
@@ -95,7 +92,6 @@
             text-align: center;
         }
 
-        /* Program dobozok (Kártyák) */
         .card {
             background: rgba(20, 20, 20, 0.75);
             backdrop-filter: blur(10px);
@@ -113,7 +109,7 @@
         }
 
         .card h2 {
-            color: #a8d5ff; /* Halványkék kiemelés a napoknak */
+            color: #a8d5ff;
             border-bottom: 1px solid rgba(255,255,255,0.2);
             padding-bottom: 10px;
             margin-top: 0;
@@ -124,12 +120,8 @@
             line-height: 1.5;
         }
 
-        .event:last-child {
-            margin-bottom: 0;
-        }
-
         .time {
-            color: #ffd700; /* Arany szín az időpontoknak */
+            color: #ffd700;
             font-weight: bold;
             font-size: 1.1rem;
         }
@@ -149,7 +141,6 @@
             line-height: 1.6;
         }
 
-        /* Mobil nézet finomhangolása */
         @media (max-width: 600px) {
             h1 { font-size: 2.2rem; }
             .countdown { font-size: 1.2rem; }
@@ -167,7 +158,6 @@
 
     <div class="content">
         <h1>Alpok 2026 – program</h1>
-        
         <div class="countdown" id="countdown">Betöltés...</div>
 
         <div class="card">
@@ -175,7 +165,7 @@
             <div class="event">
                 <div class="time">08:00 – 08:50</div>
                 <div class="location">Marghitta → Oradea</div>
-                <div class="note">(Cento busz: utolsó megálló = Autogara Intrans SA, ugyanott indul a FlixBus)</div>
+                <div class="note">(Cento busz: utolsó megálló = Autogara Intrans SA)</div>
             </div>
             <div class="event">
                 <div class="time">10:15 – 13:25</div>
@@ -233,7 +223,6 @@
             <div class="event">
                 <div class="time">15:00 körül</div>
                 <div class="location">Érkezés a kempinghez ⛺</div>
-                <div class="note">Onnantól szabad program</div>
             </div>
         </div>
 
@@ -297,7 +286,6 @@
 
     <script>
         // --- 1. VISSZASZÁMLÁLÓ ---
-        // Cél időpont: 2026. Április 30. 13:25
         const targetDate = new Date("2026-04-30T13:25:00").getTime();
         const countdownElement = document.getElementById("countdown");
 
@@ -306,7 +294,7 @@
             const distance = targetDate - now;
 
             if (distance <= 0) {
-                countdownElement.innerHTML = "Itt az idő! Végre találkozunk! ❤️";
+                countdownElement.innerHTML = "Itt az idő! ❤️";
                 return;
             }
 
@@ -321,53 +309,40 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // --- 2. MOZGÓ ÉS VÁLTAKOZÓ HÁTTÉRKÉPEK ---
+        // --- 2. MOZGÓ HÁTTÉRKÉPEK (Mappa nélkül) ---
         document.addEventListener("DOMContentLoaded", () => {
-            // Ide írd be a saját képeid elérési útját! (Legyenek 1920x1080 hegyes képek)
+            // Itt kivettem az "images/" előtagot!
             const images = [
-                "images/hegy1.jpg", 
-                "images/hegy2.jpg", 
-                "images/hegy3.jpg", 
-                "images/hegy4.jpg"
+                "hegy1.jpg", 
+                "hegy2.jpg", 
+                "hegy3.jpg", 
+                "hegy4.jpg"
             ];
             
             let currentImageIndex = 0;
             const bg1 = document.getElementById("bg1");
             const bg2 = document.getElementById("bg2");
-            
             let activeBg = bg1;
             let inactiveBg = bg2;
 
-            // Képek előtöltése a böngésző memóriájába
             images.forEach(src => {
                 const img = new Image();
                 img.src = src;
             });
 
-            // Kezdőállapot beállítása
             activeBg.style.backgroundImage = `url('${images[currentImageIndex]}')`;
             activeBg.classList.add('active');
 
-            // 15 másodpercenkénti (15000 milliszekundum) váltás
             setInterval(() => {
-                // Következő kép indexének kiszámítása
                 currentImageIndex = (currentImageIndex + 1) % images.length;
-                
-                // Az inaktív (láthatatlan) div megkapja az új képet
                 inactiveBg.style.backgroundImage = `url('${images[currentImageIndex]}')`;
-                
-                // Áttűnés: az inaktív aktív lesz (megjelenik és elindul az animációja)
                 inactiveBg.classList.add('active');
-                
-                // A régi aktív elveszíti a class-t (elhalványul és visszaáll a pozíciója)
                 activeBg.classList.remove('active');
 
-                // Megcseréljük a két változót a következő körre
                 const temp = activeBg;
                 activeBg = inactiveBg;
                 inactiveBg = temp;
-                
-            }, 15000); // 15 másodperc
+            }, 15000);
         });
     </script>
 </body>
