@@ -19,15 +19,17 @@
             overflow-x: hidden;
         }
 
-        /* Háttér animáció */
+        /* Háttér animáció konténer */
         .background-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            /* 150vh-ra növeljük a magasságot, hogy görgetésnél legyen "tartaléka" a képnek */
+            height: 150vh; 
             overflow: hidden;
             z-index: 0;
+            will-change: transform; /* Teljesítményjavítás a görgetéshez */
         }
 
         .background-image {
@@ -41,7 +43,7 @@
             background-position: center;
             opacity: 0;
             transition: opacity 1.5s ease-in-out;
-            will-change: opacity;
+            will-change: opacity, background-position;
         }
         
         .background-image.active {
@@ -81,7 +83,7 @@
 
         /* Visszaszámláló */
         .countdown-container {
-            background: rgba(255, 255, 255, 0.25); /* Picit világosabb alap a kontrasztért */
+            background: rgba(255, 255, 255, 0.25);
             backdrop-filter: blur(4px); 
             -webkit-backdrop-filter: blur(4px);
             padding: 15px 30px;
@@ -94,12 +96,12 @@
         .countdown {
             font-size: 1.4rem;
             font-weight: 700;
-            color: #1e3a8a; /* Nagyon sötét kék, árnyék nélkül */
+            color: #1e3a8a; /* Sötétkék */
         }
 
         /* Átlátszó program doboz */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.20); /* Picit világosabb alap a kék betűk miatt */
+            background: rgba(255, 255, 255, 0.20);
             backdrop-filter: blur(6px); 
             -webkit-backdrop-filter: blur(6px);
             border-radius: 25px;
@@ -116,9 +118,9 @@
 
         h2 {
             font-size: 1.8rem;
-            color: #1e3a8a; /* Nagyon sötét kék, árnyék nélkül */
+            color: #1e3a8a; /* Sötétkék */
             margin-bottom: 15px;
-            border-bottom: 1px solid rgba(30, 58, 138, 0.4); /* Sötétkék vonal */
+            border-bottom: 1px solid rgba(30, 58, 138, 0.4);
             padding-bottom: 5px;
         }
 
@@ -163,7 +165,7 @@
             content: "✓";
             position: absolute;
             left: 0;
-            color: #1e3a8a; /* Sötétkék pipa, árnyék nélkül */
+            color: #1e3a8a; /* Sötétkék */
             font-weight: bold;
         }
 
@@ -179,7 +181,7 @@
 </head>
 <body>
 
-    <div class="background-container">
+    <div class="background-container" id="bgContainer">
         <div id="bg1" class="background-image"></div>
         <div id="bg2" class="background-image"></div>
     </div>
@@ -344,7 +346,7 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // --- HÁTTÉR ANIMÁCIÓ ---
+        // --- HÁTTÉR ANIMÁCIÓ ÉS PARALLAX ---
         document.addEventListener("DOMContentLoaded", () => {
             const images = [
                 "images/hatter1.jpg", 
@@ -354,11 +356,15 @@
             ];
             let currentImageIndex = 0;
             let xPos = 0;
+            
+            const bgContainer = document.getElementById("bgContainer");
             const bg1 = document.getElementById("bg1");
             const bg2 = document.getElementById("bg2");
+            
             let activeBackground = bg1;
             let inactiveBackground = bg2;
         
+            // Képek előtöltése
             images.forEach(image => {
                 const img = new Image();
                 img.src = image;
@@ -367,26 +373,34 @@
             activeBackground.style.backgroundImage = `url(${images[currentImageIndex]})`;
             activeBackground.classList.add('active');
         
-            function animateBackground() {
-                xPos -= 0.15;
-                activeBackground.style.backgroundPosition = `${xPos}px center`;
-        
-                if (Math.abs(xPos) >= window.innerWidth) {
-                    currentImageIndex = (currentImageIndex + 1) % images.length;
-                    inactiveBackground.style.backgroundImage = `url(${images[currentImageIndex]})`;
-                    
-                    activeBackground.classList.remove('active');
-                    inactiveBackground.classList.add('active');
-                    
-                    const temp = activeBackground;
-                    activeBackground = inactiveBackground;
-                    inactiveBackground = temp;
+            // 1. Képváltás pontosan 15 másodpercenként
+            setInterval(() => {
+                currentImageIndex = (currentImageIndex + 1) % images.length;
+                inactiveBackground.style.backgroundImage = `url(${images[currentImageIndex]})`;
+                
+                activeBackground.classList.remove('active');
+                inactiveBackground.classList.add('active');
+                
+                const temp = activeBackground;
+                activeBackground = inactiveBackground;
+                inactiveBackground = temp;
+            }, 15000); // 15 másodperc
 
-                    xPos = 0;
-                }
+            // 2. Folyamatos vízszintes mozgás
+            function animateBackground() {
+                xPos -= 0.3; // Sebesség
+                bg1.style.backgroundPosition = `${xPos}px center`;
+                bg2.style.backgroundPosition = `${xPos}px center`;
                 requestAnimationFrame(animateBackground);
             }
             animateBackground();
+
+            // 3. Görgetés figyelése (Parallax effektus)
+            window.addEventListener('scroll', () => {
+                const scrollPosition = window.scrollY;
+                // A 0.25 azt jelenti, hogy 25%-os sebességgel mozog a háttér a görgetéshez képest
+                bgContainer.style.transform = `translateY(${-scrollPosition * 0.25}px)`;
+            });
         });
     </script>
 </body>
