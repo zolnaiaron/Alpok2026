@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpok 2026 - Program</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Háttér struktúra az index.html-ből */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: 0 0;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            will-change: opacity, transform;
+        }
+        
+        .background-image.active {
+            opacity: 1;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6); /* Kicsit sötétebb, hogy a sok szöveg jobban látszódjon */
+            z-index: 1;
+        }
+
+        /* Tartalom doboz stílusa */
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: rgba(26, 26, 26, 0.85); /* Félig átlátszó sötét */
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: left;
+            margin-bottom: 100px;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 40px;
+            color: #ffffff;
+            border-bottom: 1px solid #4a4a4a;
+            padding-bottom: 10px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        strong {
+            color: #ffd700;
+            font-weight: 700;
+        }
+        
+        .back-button {
+            display: block;
+            width: fit-content;
+            margin: 40px auto 0 auto;
+            padding: 12px 25px;
+            font-size: 1rem;
+            color: #ffffff;
+            background-color: rgba(0, 0, 0, 0.6);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        /* Mozgó vonat */
+        .train-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .train {
+            font-size: 60px;
+            white-space: nowrap;
+            animation: move-train 20s linear infinite;
+        }
+
+        @keyframes move-train {
+            0% { transform: translateX(100vw); }
+            100% { transform: translateX(-150%); }
+        }
+
+        @media (max-width: 600px) {
+            .container { margin: 20px; padding: 15px; }
+            h1 { font-size: 1.8rem; }
+            .train-container { height: 50px; }
+            .train { font-size: 35px; animation: move-train-mobile 15s linear infinite; }
+            @keyframes move-train-mobile {
+                0% { transform: translateX(100vw); }
+                100% { transform: translateX(-150%); }
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background-container">
+        <div id="bg1" class="background-image"></div>
+        <div id="bg2" class="background-image"></div>
+    </div>
+    <div class="overlay"></div>
+
+    <div class="container">
+        <h1>Alpok 2026 – Program</h1>
+        
+        <h2>Április 30. Csütörtök</h2>
+        <ul>
+            <li><strong>08:00 – 08:50</strong><br>Marghitta → Oradea <br><i>(Cento busz: utolsó megálló = Autogara Intrans SA)</i></li>
+            <li><strong>10:15 – 13:25</strong><br>Oradea → Budapest Népliget (FlixBus)<br>Érkezés után találkozunk ❤️</li>
+            <li><strong>14:00 – 14:30</strong><br>Kávézás / könnyű étkezés</li>
+            <li><strong>15:00 – 16:00</strong><br>Meglepetés program ✨</li>
+            <li><strong>16:20 – 16:50</strong><br>Burger King</li>
+            <li><strong>17:00 – 18:00</strong><br>Budapest → Őrbottyán (busz)</li>
+            <li><strong>18:00 – 20:00</strong><br>Érkezés, pihenés, család, beszélgetés</li>
+            <li><strong>20:00 – 22:30</strong><br>Filmnézés</li>
+            <li><strong>23:00</strong><br>Alvás</li>
+        </ul>
+
+        <h2>Május 1. Péntek</h2>
+        <ul>
+            <li><strong>06:30</strong> – Ébredés</li>
+            <li><strong>07:15</strong> – Reggeli</li>
+            <li><strong>08:00</strong> – Indulás (késés esélyes 😅)</li>
+            <li><strong>11:30</strong><br>Megálló Sopronban – vásárlás, ebéd</li>
+            <li><strong>15:00 körül</strong><br>Érkezés a kempinghez ⛺</li>
+        </ul>
+
+        <h2>Május 2. Szombat</h2>
+        <ul>
+            <li><strong>07:30</strong><br>Ébredés → átöltözés → pakolás → reggeli</li>
+            <li><strong>08:52 – 08:59</strong><br>Pichl-Grossdorf → Oberort (Grüner See)</li>
+            <li><strong>09:00</strong><br>Kirándulás indul 🏔️</li>
+            <li><strong>19:00-ig</strong><br>Visszaérkezés legkésőbb</li>
+            <li><strong>Este</strong><br>Vacsora → beszélgetés</li>
+        </ul>
+
+        <h2>Május 3. Vasárnap</h2>
+        <ul>
+            <li><strong>08:00</strong><br>Ébredés, közös reggeli</li>
+            <li><strong>09:00</strong><br>Sátorbontás, pakolás</li>
+            <li><strong>10:00</strong><br>Indulás haza 🚗</li>
+            <li><strong>17:40 – 21:13</strong><br>Budapest Keleti → Nyírábrány<br><i>(Román idő szerint: 22:13)</i></li>
+        </ul>
+        
+        <a href="index.html" class="back-button">Vissza a főoldalra</a>
+    </div>
+
+    <div class="train-container">
+        <span class="train">實🚃🚃</span>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const images = ["hegy1.jpg", "hegy2.jpg", "hegy3.jpg", "hegy4.jpg"];
+            let currentImageIndex = 0;
+            let xPos = 0;
+            const bg1 = document.getElementById("bg1");
+            const bg2 = document.getElementById("bg2");
+            let activeBackground = bg1;
+            let inactiveBackground = bg2;
+        
+            images.forEach(image => { const img = new Image(); img.src = image; });
+
+            activeBackground.style.backgroundImage = `url(${images[currentImageIndex]})`;
+            activeBackground.classList.add('active');
+        
+            function animateBackground() {
+                xPos -= 0.1;
+                activeBackground.style.backgroundPosition = `${xPos}px 0`;
+                if (Math.abs(xPos) >= window.innerWidth - 200) {
+                    currentImageIndex = (currentImageIndex + 1) % images.length;
+                    inactiveBackground.style.backgroundImage = `url(${images[currentImageIndex]})`;
+                    activeBackground.classList.remove('active');
+                    inactiveBackground.classList.add('active');
+                    const temp = activeBackground;
+                    activeBackground = inactiveBackground;
+                    inactiveBackground = temp;
+                    xPos = 0;
+                }
+                requestAnimationFrame(animateBackground);
+            }
+            animateBackground();
+        });
+    </script>
+</body>
+</html>
