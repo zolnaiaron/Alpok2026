@@ -54,7 +54,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.4); /* sötétítés a jobb olvashatóságért */
+            background: rgba(0,0,0,0.4); 
             z-index: 1;
         }
 
@@ -75,39 +75,39 @@
             font-family: 'Playfair Display', serif;
             font-size: 3.5rem;
             margin-bottom: 10px;
-            text-shadow: 3px 3px 10px rgba(0,0,0,0.6);
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.8);
             letter-spacing: 2px;
         }
 
         /* Visszaszámláló */
         .countdown-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.2); /* Picit világosabb alap a kontrasztért */
+            backdrop-filter: blur(4px); 
+            -webkit-backdrop-filter: blur(4px);
             padding: 15px 30px;
             border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             margin-bottom: 40px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
         }
 
         .countdown {
             font-size: 1.4rem;
             font-weight: 700;
-            color: #ffd700; /* Arany szín a kiemeléshez */
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+            color: #1e3a8a; /* Nagyon sötét kék */
+            text-shadow: 1px 1px 5px rgba(255,255,255,0.7); /* Világos árnyék, hogy ne olvadjon bele */
         }
 
         /* Átlátszó program doboz */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.15); /* Picit világosabb alap */
+            backdrop-filter: blur(6px); 
+            -webkit-backdrop-filter: blur(6px);
             border-radius: 25px;
             padding: 40px;
             width: 100%;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
             margin-bottom: 50px;
         }
 
@@ -117,10 +117,11 @@
 
         h2 {
             font-size: 1.8rem;
-            color: #ffd700;
+            color: #1e3a8a; /* Nagyon sötét kék */
             margin-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            border-bottom: 1px solid rgba(30, 58, 138, 0.4); /* Sötétkék vonal */
             padding-bottom: 5px;
+            text-shadow: 1px 1px 3px rgba(255,255,255,0.4); /* Világos árnyék */
         }
 
         .program-item {
@@ -132,7 +133,7 @@
         .time {
             font-weight: 700;
             min-width: 110px;
-            color: rgba(255,255,255,0.8);
+            color: rgba(255,255,255,0.9);
         }
 
         .desc {
@@ -141,7 +142,7 @@
 
         .sub-info {
             font-size: 0.9rem;
-            color: rgba(255,255,255,0.6);
+            color: rgba(255,255,255,0.7);
             font-style: italic;
         }
 
@@ -164,8 +165,9 @@
             content: "✓";
             position: absolute;
             left: 0;
-            color: #ffd700;
+            color: #1e3a8a; /* Sötétkék pipa */
             font-weight: bold;
+            text-shadow: 0 0 3px rgba(255,255,255,0.6);
         }
 
         /* Mobil optimalizálás */
@@ -369,7 +371,7 @@
             activeBackground.classList.add('active');
         
             function animateBackground() {
-                xPos -= 0.15; // Kicsit gyorsítottam a mozgáson
+                xPos -= 0.15;
                 activeBackground.style.backgroundPosition = `${xPos}px center`;
         
                 if (Math.abs(xPos) >= window.innerWidth) {
