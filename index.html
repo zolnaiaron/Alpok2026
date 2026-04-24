@@ -81,7 +81,7 @@
 
         /* Visszaszámláló */
         .countdown-container {
-            background: rgba(255, 255, 255, 0.2); /* Picit világosabb alap a kontrasztért */
+            background: rgba(255, 255, 255, 0.25); /* Picit világosabb alap a kontrasztért */
             backdrop-filter: blur(4px); 
             -webkit-backdrop-filter: blur(4px);
             padding: 15px 30px;
@@ -94,13 +94,12 @@
         .countdown {
             font-size: 1.4rem;
             font-weight: 700;
-            color: #1e3a8a; /* Nagyon sötét kék */
-            text-shadow: 1px 1px 5px rgba(255,255,255,0.7); /* Világos árnyék, hogy ne olvadjon bele */
+            color: #1e3a8a; /* Nagyon sötét kék, árnyék nélkül */
         }
 
         /* Átlátszó program doboz */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.15); /* Picit világosabb alap */
+            background: rgba(255, 255, 255, 0.20); /* Picit világosabb alap a kék betűk miatt */
             backdrop-filter: blur(6px); 
             -webkit-backdrop-filter: blur(6px);
             border-radius: 25px;
@@ -117,11 +116,10 @@
 
         h2 {
             font-size: 1.8rem;
-            color: #1e3a8a; /* Nagyon sötét kék */
+            color: #1e3a8a; /* Nagyon sötét kék, árnyék nélkül */
             margin-bottom: 15px;
             border-bottom: 1px solid rgba(30, 58, 138, 0.4); /* Sötétkék vonal */
             padding-bottom: 5px;
-            text-shadow: 1px 1px 3px rgba(255,255,255,0.4); /* Világos árnyék */
         }
 
         .program-item {
@@ -165,9 +163,8 @@
             content: "✓";
             position: absolute;
             left: 0;
-            color: #1e3a8a; /* Sötétkék pipa */
+            color: #1e3a8a; /* Sötétkék pipa, árnyék nélkül */
             font-weight: bold;
-            text-shadow: 0 0 3px rgba(255,255,255,0.6);
         }
 
         /* Mobil optimalizálás */
