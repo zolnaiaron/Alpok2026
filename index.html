@@ -25,11 +25,11 @@
             top: 0;
             left: 0;
             width: 100%;
-            /* 150vh-ra növeljük a magasságot, hogy görgetésnél legyen "tartaléka" a képnek */
-            height: 150vh; 
+            /* 130vh: van elég tartalék a görgetéshez, de nem torzít */
+            height: 130vh; 
             overflow: hidden;
             z-index: 0;
-            will-change: transform; /* Teljesítményjavítás a görgetéshez */
+            will-change: transform; 
         }
 
         .background-image {
@@ -40,10 +40,11 @@
             height: 100%;
             background-size: cover;
             background-repeat: no-repeat;
-            background-position: center;
+            background-position: 0px center;
             opacity: 0;
             transition: opacity 1.5s ease-in-out;
             will-change: opacity, background-position;
+            transform: scale(1.05); /* Kicsi ráhagyás a szélekre */
         }
         
         .background-image.active {
@@ -346,7 +347,7 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // --- HÁTTÉR ANIMÁCIÓ ÉS PARALLAX ---
+        // --- HÁTTÉR ANIMÁCIÓ ÉS LIMITÁLT PARALLAX ---
         document.addEventListener("DOMContentLoaded", () => {
             const images = [
                 "images/hatter1.jpg", 
@@ -355,16 +356,17 @@
                 "images/hatter4.jpg"
             ];
             let currentImageIndex = 0;
-            let xPos = 0;
             
             const bgContainer = document.getElementById("bgContainer");
             const bg1 = document.getElementById("bg1");
             const bg2 = document.getElementById("bg2");
             
+            let xPos1 = 0;
+            let xPos2 = 0;
+            
             let activeBackground = bg1;
             let inactiveBackground = bg2;
         
-            // Képek előtöltése
             images.forEach(image => {
                 const img = new Image();
                 img.src = image;
@@ -376,6 +378,15 @@
             // 1. Képváltás pontosan 15 másodpercenként
             setInterval(() => {
                 currentImageIndex = (currentImageIndex + 1) % images.length;
+                
+                if (inactiveBackground === bg1) {
+                    xPos1 = 0;
+                    bg1.style.backgroundPosition = `0px center`;
+                } else {
+                    xPos2 = 0;
+                    bg2.style.backgroundPosition = `0px center`;
+                }
+
                 inactiveBackground.style.backgroundImage = `url(${images[currentImageIndex]})`;
                 
                 activeBackground.classList.remove('active');
@@ -384,22 +395,36 @@
                 const temp = activeBackground;
                 activeBackground = inactiveBackground;
                 inactiveBackground = temp;
-            }, 15000); // 15 másodperc
+            }, 15000);
 
             // 2. Folyamatos vízszintes mozgás
             function animateBackground() {
-                xPos -= 0.3; // Sebesség
-                bg1.style.backgroundPosition = `${xPos}px center`;
-                bg2.style.backgroundPosition = `${xPos}px center`;
+                xPos1 -= 0.3;
+                xPos2 -= 0.3;
+                
+                bg1.style.backgroundPosition = `${xPos1}px center`;
+                bg2.style.backgroundPosition = `${xPos2}px center`;
+                
                 requestAnimationFrame(animateBackground);
             }
             animateBackground();
 
-            // 3. Görgetés figyelése (Parallax effektus)
+            // 3. Görgetés figyelése LIMITÁLÁSSAL (Ezzel szűnik meg a fekete sáv)
             window.addEventListener('scroll', () => {
                 const scrollPosition = window.scrollY;
-                // A 0.25 azt jelenti, hogy 25%-os sebességgel mozog a háttér a görgetéshez képest
-                bgContainer.style.transform = `translateY(${-scrollPosition * 0.25}px)`;
+                
+                // Kiszámoljuk a limitet: a képernyő magasságának 25%-a az a maximum,
+                // amennyit a háttér felcsúszhat, így biztosan nem jön be alul a fekete rész.
+                const maxOffset = window.innerHeight * 0.25; 
+                
+                let yOffset = scrollPosition * 0.25;
+                
+                // Ha elérjük a limitet, a változó nem nő tovább
+                if (yOffset > maxOffset) {
+                    yOffset = maxOffset;
+                }
+                
+                bgContainer.style.transform = `translateY(${-yOffset}px)`;
             });
         });
     </script>
