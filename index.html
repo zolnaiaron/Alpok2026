@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alpok 2026 – Program</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <link rel="preload" as="image" href="images/hatter1.jpg">
+
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            cursor: default; /* Eltünteti az 'I' betűs kurzort a szövegekről */
+            cursor: default;
         }
 
         /* --- AZ ALAPÉRTELMEZETT SZÜRKE GÖRGETŐSÁV TELJES ELTÜNTETÉSE --- */
@@ -145,31 +148,32 @@
             font-variant-numeric: tabular-nums;
         }
 
-        /* --- Átlátszó program doboz --- */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.20);
-            backdrop-filter: blur(6px); 
-            -webkit-backdrop-filter: blur(6px);
-            border-radius: 25px;
-            padding: 40px;
+        /* --- Különálló üvegkártyák minden napnak --- */
+        .day-section { 
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px); 
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 20px;
+            padding: 30px 40px;
             width: 100%;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-            margin-bottom: 50px;
-        }
-
-        .day-section { 
-            margin-bottom: 35px; 
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            margin-bottom: 40px; 
         }
 
         h2 {
             font-size: 1.8rem;
-            color: #000; 
-            margin-bottom: 15px;
+            color: #000;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 10px;
         }
 
+        /* --- PROGRAM PONTOK ELRENDEZÉSE --- */
         .program-item {
             display: flex;
+            align-items: flex-start; /* Hogy a szöveg mellé mindig felülre igazodjon az idő */
+            gap: 25px; /* FIX TÁVOLSÁG az idő és a program leírása között */
             margin-bottom: 10px;
             line-height: 1.6;
             padding: 12px;
@@ -187,8 +191,8 @@
 
         .time {
             font-weight: 700;
-            min-width: 110px;
-            color: rgba(255,255,255,0.9);
+            min-width: 135px; /* Szélesebb hely biztosítva, hogy a "10:15 - 13:25" is kényelmesen elférjen */
+            color: rgba(255,255,255,0.9); 
         }
 
         .desc { flex: 1; }
@@ -199,7 +203,7 @@
             font-style: italic;
         }
 
-        .list-container { margin-top: 20px; }
+        .list-container { margin-top: 10px; }
         .list-container ul { list-style: none; }
         .list-container li {
             margin-bottom: 12px;
@@ -226,13 +230,21 @@
             transform: translateY(0);
         }
 
+        /* --- MOBIL NÉZET BEÁLLÍTÁSAI --- */
         @media (max-width: 600px) {
             h1 { font-size: 2.8rem; }
             .countdown-container { min-width: 300px; }
             .countdown { font-size: 1.1rem; }
-            .glass-panel { padding: 25px; }
-            .program-item { flex-direction: column; margin-bottom: 15px; }
-            .time { margin-bottom: 2px; }
+            .day-section { padding: 25px 20px; }
+            
+            .program-item { 
+                flex-direction: column; /* Egymás alá kerülnek az elemek */
+                gap: 5px; /* Pici távolság az idő és a szöveg között egymás alatt */
+                margin-bottom: 15px; 
+            }
+            .time { 
+                min-width: auto; /* Mobilon nem kell a fix szélesség */
+            }
         }
     </style>
 </head>
@@ -252,130 +264,128 @@
             <div class="countdown" id="countdown">Betöltés...</div>
         </div>
 
-        <div class="glass-panel">
-            <div class="day-section">
-                <h2>Április 30. Csütörtök</h2>
-                <div class="program-item">
-                    <div class="time">08:00 – 09:05</div>
-                    <div class="desc">Marghitta → Oradea <br><span class="sub-info">(Cento busz: utolsó megálló = Autogara Intrans SA)</span></div>
-                </div>
-                <div class="program-item">
-                    <div class="time">10:15 – 13:25</div>
-                    <div class="desc">Oradea → Budapest Népliget (FlixBus)</div>
-                </div>
-                <div class="program-item">
-                    <div class="time">14:00 után</div>
-                    <div class="desc">kávézás / könnyű étkezés</div>
-                </div>
-                <div class="program-item">
-                    <div class="time">15:00 – 16:00</div>
-                    <div class="desc">Meglepetés program ✨</div>
-                </div>
-                <div class="program-item">
-                    <div class="time">16:20 – 16:50</div>
-                    <div class="desc">Burger King</div>
-                </div>
-                <div class="program-item">
-                    <div class="time">17:00 – 18:00</div>
-                    <div class="desc">Budapest → Őrbottyán (busz)</div>
-                </div>
-                <div class="program-item">
-                    <div class="time">18:00 – 20:00</div>
-                    <div class="desc">Érkezés, pihenés, család, beszélgetés</div>
-                </div>
-                <div class="program-item">
-                    <div class="time">20:00 – 22:30</div>
-                    <div class="desc">Filmnézés 🍿</div>
-                </div>
-                <div class="program-item">
-                    <div class="time">23:00</div>
-                    <div class="desc">Alvás</div>
-                </div>
+        <div class="day-section">
+            <h2>Április 30. Csütörtök</h2>
+            <div class="program-item">
+                <div class="time">08:00 – 09:05</div>
+                <div class="desc">Marghitta → Oradea <br><span class="sub-info">(Cento busz: utolsó megálló = Autogara Intrans SA)</span></div>
             </div>
+            <div class="program-item">
+                <div class="time">10:15 – 13:25</div>
+                <div class="desc">Oradea → Budapest Népliget (FlixBus)</div>
+            </div>
+            <div class="program-item">
+                <div class="time">14:00 után</div>
+                <div class="desc">kávézás / könnyű étkezés</div>
+            </div>
+            <div class="program-item">
+                <div class="time">15:00 – 16:00</div>
+                <div class="desc">Meglepetés program ✨</div>
+            </div>
+            <div class="program-item">
+                <div class="time">16:20 – 16:50</div>
+                <div class="desc">Burger King</div>
+            </div>
+            <div class="program-item">
+                <div class="time">17:00 – 18:00</div>
+                <div class="desc">Budapest → Őrbottyán (busz)</div>
+            </div>
+            <div class="program-item">
+                <div class="time">18:00 – 20:00</div>
+                <div class="desc">Érkezés, pihenés, család, beszélgetés</div>
+            </div>
+            <div class="program-item">
+                <div class="time">20:00 – 22:30</div>
+                <div class="desc">Filmnézés 🍿</div>
+            </div>
+            <div class="program-item">
+                <div class="time">23:00</div>
+                <div class="desc">Alvás</div>
+            </div>
+        </div>
 
-            <div class="day-section">
-                <h2>Május 1. Péntek</h2>
-                <div class="program-item">
-                    <div class="time">06:30</div>
-                    <div class="desc">Ébredés</div>
-                </div>
-                <div class="program-item">
-                    <div class="time">07:15</div>
-                    <div class="desc">Reggeli</div>
-                </div>
-                <div class="program-item">
-                    <div class="time">08:00</div>
-                    <div class="desc">Indulás <span class="sub-info">(késés esélyes)</span></div>
-                </div>
-                <div class="program-item">
-                    <div class="time">11:30</div>
-                    <div class="desc">Megálló Sopronban – vásárlás, ebéd lehetősége</div>
-                </div>
-                <div class="program-item">
-                    <div class="time">15:00 körül</div>
-                    <div class="desc">Érkezés a kempinghez 🏕️</div>
-                </div>
-                <div class="program-item">
-                    <div class="time">Délután</div>
-                    <div class="desc">Szabad program</div>
-                </div>
+        <div class="day-section">
+            <h2>Május 1. Péntek</h2>
+            <div class="program-item">
+                <div class="time">06:30</div>
+                <div class="desc">Ébredés</div>
             </div>
+            <div class="program-item">
+                <div class="time">07:15</div>
+                <div class="desc">Reggeli</div>
+            </div>
+            <div class="program-item">
+                <div class="time">08:00</div>
+                <div class="desc">Indulás <span class="sub-info">(késés esélyes)</span></div>
+            </div>
+            <div class="program-item">
+                <div class="time">11:30</div>
+                <div class="desc">Megálló Sopronban – vásárlás, ebéd lehetősége</div>
+            </div>
+            <div class="program-item">
+                <div class="time">15:00 körül</div>
+                <div class="desc">Érkezés a kempinghez 🏕️</div>
+            </div>
+            <div class="program-item">
+                <div class="time">Délután</div>
+                <div class="desc">Szabad program</div>
+            </div>
+        </div>
 
-            <div class="day-section">
-                <h2>Május 2. Szombat</h2>
-                <div class="program-item">
-                    <div class="time">07:30</div>
-                    <div class="desc">Ébredés, pakolás, reggeli</div>
-                </div>
-                <div class="program-item">
-                    <div class="time">08:52 – 08:59</div>
-                    <div class="desc">Pichl-Grossdorf → Oberort (Grüner See)</div>
-                </div>
-                <div class="program-item">
-                    <div class="time">09:00</div>
-                    <div class="desc"><strong>Kirándulás indul</strong> 🏔️</div>
-                </div>
-                <div class="program-item">
-                    <div class="time">19:00-ig</div>
-                    <div class="desc">Visszaérkezés legkésőbb</div>
-                </div>
-                <div class="program-item">
-                    <div class="time">Este</div>
-                    <div class="desc">Vacsora, fürdés a tóban, nagy beszélgetések</div>
-                </div>
+        <div class="day-section">
+            <h2>Május 2. Szombat</h2>
+            <div class="program-item">
+                <div class="time">07:30</div>
+                <div class="desc">Ébredés, pakolás, reggeli</div>
             </div>
+            <div class="program-item">
+                <div class="time">08:52 – 08:59</div>
+                <div class="desc">Pichl-Grossdorf → Oberort (Grüner See)</div>
+            </div>
+            <div class="program-item">
+                <div class="time">09:00</div>
+                <div class="desc"><strong>Kirándulás indul</strong> 🏔️</div>
+            </div>
+            <div class="program-item">
+                <div class="time">19:00-ig</div>
+                <div class="desc">Visszaérkezés legkésőbb</div>
+            </div>
+            <div class="program-item">
+                <div class="time">Este</div>
+                <div class="desc">Vacsora, fürdés a tóban, nagy beszélgetések</div>
+            </div>
+        </div>
 
-            <div class="day-section">
-                <h2>Május 3. Vasárnap</h2>
-                <div class="program-item">
-                    <div class="time">08:00</div>
-                    <div class="desc">Ébredés, közös reggeli</div>
-                </div>
-                <div class="program-item">
-                    <div class="time">09:00</div>
-                    <div class="desc">Sátorbontás, pakolás</div>
-                </div>
-                <div class="program-item">
-                    <div class="time">10:00</div>
-                    <div class="desc">Indulás haza</div>
-                </div>
-                <div class="program-item">
-                    <div class="time">17:40 – 21:13</div>
-                    <div class="desc">Budapest Keleti → Nyírábrány <br><span class="sub-info">(román idő szerint érkezés: 22:13)</span></div>
-                </div>
+        <div class="day-section">
+            <h2>Május 3. Vasárnap</h2>
+            <div class="program-item">
+                <div class="time">08:00</div>
+                <div class="desc">Ébredés, közös reggeli</div>
             </div>
+            <div class="program-item">
+                <div class="time">09:00</div>
+                <div class="desc">Sátorbontás, pakolás</div>
+            </div>
+            <div class="program-item">
+                <div class="time">10:00</div>
+                <div class="desc">Indulás haza</div>
+            </div>
+            <div class="program-item">
+                <div class="time">17:40 – 21:13</div>
+                <div class="desc">Budapest Keleti → Nyírábrány <br><span class="sub-info">(román idő szerint érkezés: 22:13)</span></div>
+            </div>
+        </div>
 
-            <div class="day-section list-container">
-                <h2>Mit hozz magaddal?</h2>
-                <ul>
-                    <li>Kényelmes ruhák</li>
-                    <li><strong>Túrázós ruha, túracipő (a legfontosabb!)</strong></li>
-                    <li>Matrac, hálózsák</li>
-                    <li>Fürdőruha, törölköző (a tóban fürdéshez)</li>
-                    <li>Pizsama (az unikornisos is jöhet!)</li>
-                    <li>Fogkefe, tisztálkodási szerek</li>
-                </ul>
-            </div>
+        <div class="day-section list-container">
+            <h2>Mit hozz magaddal?</h2>
+            <ul>
+                <li>Kényelmes ruhák</li>
+                <li><strong>Túrázós ruha, túracipő (a legfontosabb!)</strong></li>
+                <li>Matrac, hálózsák</li>
+                <li>Fürdőruha, törölköző (a tóban fürdéshez)</li>
+                <li>Pizsama (az unikornisos is jöhet!)</li>
+                <li>Fogkefe, tisztálkodási szerek</li>
+            </ul>
         </div>
     </div>
 
@@ -507,7 +517,6 @@
                 const scrollPercent = docHeight > 0 ? (scrollPosition / docHeight) : 0;
 
                 // 2. Kiszámoljuk, mennyi az a maximum távolság, amennyit a háttér mozoghat
-                // Ez a háttérkonténer teljes magassága mínusz az ablak magassága
                 const maxBgScroll = bgContainer.offsetHeight - window.innerHeight;
 
                 // 3. Alkalmazzuk az arányos eltolást
