@@ -6,9 +6,7 @@
     <title>Alpok 2026 – Program</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
-    
     <link href="https://fonts.cdnfonts.com/css/gagalin" rel="stylesheet">
-    
     <link rel="preload" as="image" href="images/hatter1.jpg">
 
     <style>
@@ -252,6 +250,17 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
+        /* --- ÉPPEN AKTUÁLIS PROGRAMPONT STÍLUSA --- */
+        .program-item.active-now {
+            background: rgba(46, 204, 113, 0.25); /* Átlátszó világoszöld */
+            border: 1px solid rgba(46, 204, 113, 0.5);
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.2);
+        }
+
+        .program-item.active-now:hover {
+            background: rgba(46, 204, 113, 0.35);
+        }
+
         .time {
             font-weight: 700;
             min-width: 135px; 
@@ -299,9 +308,7 @@
 
         /* --- MOBIL NÉZET BEÁLLÍTÁSAI --- */
         @media (max-width: 600px) {
-            .intro-text { 
-                font-size: 5rem;
-            }
+            .intro-text { font-size: 5rem; }
             @keyframes sink-anim {
                 0% { top: 50%; transform: translate(-50%, -50%) scale(0.9); filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.8)) blur(10px); opacity: 0; }
                 15% { top: 50%; transform: translate(-50%, -50%) scale(1); filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.8)) blur(0px); opacity: 1; }
@@ -341,47 +348,47 @@
         <section class="day-section">
             <h2>Április 30. Csütörtök</h2>
             
-            <a href="https://www.cento.ro/Transport/Marghita-Oradea" target="_blank" class="program-item">
+            <a href="https://www.cento.ro/Transport/Marghita-Oradea" target="_blank" class="program-item" data-start="2026-04-30T08:00:00" data-end="2026-04-30T09:05:00">
                 <time class="time">08:00 – 09:05</time>
                 <div class="desc">Marghitta → Oradea <br><span class="sub-info">(Cento busz: utolsó megálló = Autogara Intrans SA)</span></div>
             </a>
             
-            <a href="https://shop.flixbus.hu/search?departureCity=90805912-40f3-4c45-b288-15146d54689d&arrivalCity=40de6527-8646-11e6-9066-549f350fcb0c&route=Nagyv%C3%A1rad-Budapest&rideDate=30.04.2026&adult=1&_locale=hu&departureCountryCode=RO&arrivalCountryCode=HU&features%5Bfeature.enable_distribusion%5D=1&features%5Bfeature.train_cities_only%5D=0&features%5Bfeature.station_search%5D=0&features%5Bfeature.station_search_recommendation%5D=0&features%5Bfeature.darken_page%5D=1" target="_blank" class="program-item">
+            <a href="https://shop.flixbus.hu/search?departureCity=90805912-40f3-4c45-b288-15146d54689d&arrivalCity=40de6527-8646-11e6-9066-549f350fcb0c&route=Nagyv%C3%A1rad-Budapest&rideDate=30.04.2026&adult=1&_locale=hu&departureCountryCode=RO&arrivalCountryCode=HU&features%5Bfeature.enable_distribusion%5D=1&features%5Bfeature.train_cities_only%5D=0&features%5Bfeature.station_search%5D=0&features%5Bfeature.station_search_recommendation%5D=0&features%5Bfeature.darken_page%5D=1" target="_blank" class="program-item" data-start="2026-04-30T10:15:00" data-end="2026-04-30T13:25:00">
                 <time class="time">10:15 – 13:25</time>
                 <div class="desc">Oradea → Budapest Népliget (FlixBus)</div>
             </a>
             
-            <a href="https://www.google.com/maps/place/Cafe+Podma/@47.5083939,19.0567586,18.8z/data=!4m6!3m5!1s0x4741dc12a842c11b:0xfa04eaee68fa8a07!8m2!3d47.5081521!4d19.0566742!16s%2Fg%2F1tdrd48x?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="program-item">
+            <a href="https://www.google.com/maps/place/Cafe+Podma/@47.5083939,19.0567586,18.8z/data=!4m6!3m5!1s0x4741dc12a842c11b:0xfa04eaee68fa8a07!8m2!3d47.5081521!4d19.0566742!16s%2Fg%2F1tdrd48x?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="program-item" data-start="2026-04-30T13:25:00" data-end="2026-04-30T15:00:00">
                 <time class="time">14:00 után</time>
                 <div class="desc">kávézás / könnyű étkezés</div>
             </a>
             
-            <div class="program-item">
+            <div class="program-item" data-start="2026-04-30T15:00:00" data-end="2026-04-30T16:20:00">
                 <time class="time">15:00 – 16:00</time>
                 <div class="desc">Meglepetés program ✨</div>
             </div>
             
-            <a href="https://www.google.com/maps/place/Burger+King+%C3%9Ajpest/@47.5602074,19.0879479,17z/data=!3m1!4b1!4m6!3m5!1s0x4741da365948853f:0x44ee77d2d69bf135!8m2!3d47.5602074!4d19.0905228!16s%2Fg%2F1pp2wwzl4?authuser=0&entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="program-item">
+            <a href="https://www.google.com/maps/place/Burger+King+%C3%9Ajpest/@47.5602074,19.0879479,17z/data=!3m1!4b1!4m6!3m5!1s0x4741da365948853f:0x44ee77d2d69bf135!8m2!3d47.5602074!4d19.0905228!16s%2Fg%2F1pp2wwzl4?authuser=0&entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="program-item" data-start="2026-04-30T16:20:00" data-end="2026-04-30T16:50:00">
                 <time class="time">16:20 – 16:50</time>
                 <div class="desc">Burger King</div>
             </a>
             
-            <a href="Menetrendek.hu - Helyközi menetrendi kereső - 419.pdf" target="_blank" class="program-item">
+            <a href="Menetrendek.hu - Helyközi menetrendi kereső - 419.pdf" target="_blank" class="program-item" data-start="2026-04-30T17:00:00" data-end="2026-04-30T18:00:00">
                 <time class="time">17:00 – 18:00</time>
                 <div class="desc">Budapest → Őrbottyán (busz)</div>
             </a>
             
-            <div class="program-item">
+            <div class="program-item" data-start="2026-04-30T18:00:00" data-end="2026-04-30T20:00:00">
                 <time class="time">18:00 – 20:00</time>
                 <div class="desc">Érkezés, pihenés, család, beszélgetés</div>
             </div>
             
-            <div class="program-item">
+            <div class="program-item" data-start="2026-04-30T20:00:00" data-end="2026-04-30T23:00:00">
                 <time class="time">20:00 – 22:30</time>
                 <div class="desc">Filmnézés 🍿</div>
             </div>
             
-            <div class="program-item">
+            <div class="program-item" data-start="2026-04-30T23:00:00" data-end="2026-05-01T06:30:00">
                 <time class="time">23:00</time>
                 <div class="desc">Alvás</div>
             </div>
@@ -389,29 +396,29 @@
 
         <section class="day-section">
             <h2>Május 1. Péntek</h2>
-            <div class="program-item">
+            <div class="program-item" data-start="2026-05-01T06:30:00" data-end="2026-05-01T07:15:00">
                 <time class="time">06:30</time>
                 <div class="desc">Ébredés</div>
             </div>
-            <div class="program-item">
+            <div class="program-item" data-start="2026-05-01T07:15:00" data-end="2026-05-01T08:00:00">
                 <time class="time">07:15</time>
                 <div class="desc">Reggeli</div>
             </div>
-            <div class="program-item">
+            <div class="program-item" data-start="2026-05-01T08:00:00" data-end="2026-05-01T11:30:00">
                 <time class="time">08:00</time>
                 <div class="desc">Indulás <span class="sub-info">(késés esélyes)</span></div>
             </div>
-            <div class="program-item">
+            <div class="program-item" data-start="2026-05-01T11:30:00" data-end="2026-05-01T15:00:00">
                 <time class="time">11:30</time>
                 <div class="desc">Megálló Sopronban – vásárlás, ebéd lehetősége</div>
             </div>
             
-            <a href="https://www.google.com/maps/place/Camping+Freizeitsee+Zenz/@47.5065384,15.072506,17z/data=!3m1!4b1!4m6!3m5!1s0x4771e5b1f6105d59:0x75dd06bb007eafe!8m2!3d47.5065384!4d15.0750809!16s%2Fg%2F1tjymjgz!5m1!1e4?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="program-item">
+            <a href="https://www.google.com/maps/place/Camping+Freizeitsee+Zenz/@47.5065384,15.072506,17z/data=!3m1!4b1!4m6!3m5!1s0x4771e5b1f6105d59:0x75dd06bb007eafe!8m2!3d47.5065384!4d15.0750809!16s%2Fg%2F1tjymjgz!5m1!1e4?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="program-item" data-start="2026-05-01T15:00:00" data-end="2026-05-01T16:00:00">
                 <time class="time">15:00 körül</time>
                 <div class="desc">Érkezés a kempinghez 🏕️</div>
             </a>
             
-            <div class="program-item">
+            <div class="program-item" data-start="2026-05-01T16:00:00" data-end="2026-05-01T23:59:59">
                 <time class="time">Délután</time>
                 <div class="desc">Szabad program</div>
             </div>
@@ -419,26 +426,26 @@
 
         <section class="day-section">
             <h2>Május 2. Szombat</h2>
-            <div class="program-item">
+            <div class="program-item" data-start="2026-05-02T07:30:00" data-end="2026-05-02T08:52:00">
                 <time class="time">07:30</time>
                 <div class="desc">Ébredés, pakolás, reggeli</div>
             </div>
             
-            <a href="Pichl-Großdorf Kirche › Tragöß-Oberort Grüner See (Seestraße_Parkplatz).pdf" target="_blank" class="program-item">
+            <a href="Pichl-Großdorf Kirche › Tragöß-Oberort Grüner See (Seestraße_Parkplatz).pdf" target="_blank" class="program-item" data-start="2026-05-02T08:52:00" data-end="2026-05-02T09:00:00">
                 <time class="time">08:52 – 08:59</time>
                 <div class="desc">Pichl-Grossdorf → Oberort (Grüner See)</div>
             </a>
             
-            <a href="https://www.bergfex.at/sommer/steiermark/touren/wanderung/677774,ueber-den-hochturm-2080m-mit-blick-auf-den-gruenen-see--rundwanderweg--oberort/" target="_blank" class="program-item">
+            <a href="https://www.bergfex.at/sommer/steiermark/touren/wanderung/677774,ueber-den-hochturm-2080m-mit-blick-auf-den-gruenen-see--rundwanderweg--oberort/" target="_blank" class="program-item" data-start="2026-05-02T09:00:00" data-end="2026-05-02T18:00:00">
                 <time class="time">09:00</time>
                 <div class="desc"><strong>Kirándulás indul</strong> 🏔️</div>
             </a>
             
-            <div class="program-item">
+            <div class="program-item" data-start="2026-05-02T18:00:00" data-end="2026-05-02T19:00:00">
                 <time class="time">19:00-ig</time>
                 <div class="desc">Visszaérkezés legkésőbb</div>
             </div>
-            <div class="program-item">
+            <div class="program-item" data-start="2026-05-02T19:00:00" data-end="2026-05-02T23:59:59">
                 <time class="time">Este</time>
                 <div class="desc">Vacsora, fürdés a tóban, nagy beszélgetések</div>
             </div>
@@ -446,20 +453,20 @@
 
         <section class="day-section">
             <h2>Május 3. Vasárnap</h2>
-            <div class="program-item">
+            <div class="program-item" data-start="2026-05-03T08:00:00" data-end="2026-05-03T09:00:00">
                 <time class="time">08:00</time>
                 <div class="desc">Ébredés, közös reggeli</div>
             </div>
-            <div class="program-item">
+            <div class="program-item" data-start="2026-05-03T09:00:00" data-end="2026-05-03T10:00:00">
                 <time class="time">09:00</time>
                 <div class="desc">Sátorbontás, pakolás</div>
             </div>
-            <div class="program-item">
+            <div class="program-item" data-start="2026-05-03T10:00:00" data-end="2026-05-03T17:40:00">
                 <time class="time">10:00</time>
                 <div class="desc">Indulás haza</div>
             </div>
             
-            <a href="Menetrendek.hu - Helyközi menetrendi kereső - 420.pdf" target="_blank" class="program-item">
+            <a href="Menetrendek.hu - Helyközi menetrendi kereső - 420.pdf" target="_blank" class="program-item" data-start="2026-05-03T17:40:00" data-end="2026-05-03T21:13:00">
                 <time class="time">17:40 – 21:13</time>
                 <div class="desc">Budapest Keleti → Nyírábrány <br><span class="sub-info">(román idő szerint érkezés: 22:13)</span></div>
             </a>
@@ -482,16 +489,8 @@
     <script>
         // --- FILMES INTRO VEZÉRLÉS ---
         const introScreen = document.getElementById("intro-screen");
-        
-        // 2 másodperc után a fekete háttér elkezd eltűnni, felfedve a hegyeket
-        setTimeout(() => {
-            introScreen.style.backgroundColor = "rgba(0, 0, 0, 0)";
-        }, 2000);
-
-        // 4.5 másodperc után (amikor a szöveg már végleg a helyére ért és eltűnt) kitöröljük az intro réteget, hogy lehessen kattintani az oldalon
-        setTimeout(() => {
-            introScreen.style.display = "none";
-        }, 4500);
+        setTimeout(() => { introScreen.style.backgroundColor = "rgba(0, 0, 0, 0)"; }, 2000);
+        setTimeout(() => { introScreen.style.display = "none"; }, 4500);
 
         // --- VISSZASZÁMLÁLÓ ---
         const targetDate = new Date("2026-04-30T13:25:00").getTime();
@@ -517,18 +516,37 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
+        // --- AKTUÁLIS PROGRAMPONT KIEMELÉSE ZÖLDDEL ---
+        function highlightCurrentEvent() {
+            const now = new Date().getTime();
+            
+            document.querySelectorAll('.program-item').forEach(item => {
+                const startStr = item.getAttribute('data-start');
+                const endStr = item.getAttribute('data-end');
+                
+                if (startStr && endStr) {
+                    const startTime = new Date(startStr).getTime();
+                    const endTime = new Date(endStr).getTime();
+                    
+                    if (now >= startTime && now < endTime) {
+                        item.classList.add('active-now');
+                    } else {
+                        item.classList.remove('active-now');
+                    }
+                }
+            });
+        }
+        
+        // Futtassuk le azonnal betöltéskor, majd frissítsük percenként
+        highlightCurrentEvent();
+        setInterval(highlightCurrentEvent, 60000);
+
         // --- POZÍCIÓ-ALAPÚ HÁTTÉR ANIMÁCIÓ ---
         document.addEventListener("DOMContentLoaded", () => {
             const images = [
-                "images/hatter1.jpg", 
-                "images/hatter2.jpg", 
-                "images/hatter3.jpg", 
-                "images/hatter4.jpg",
-                "images/hatter5.jpg", 
-                "images/hatter6.jpg", 
-                "images/hatter7.jpg", 
-                "images/hatter8.jpg",
-                "images/hatter9.jpg", 
+                "images/hatter1.jpg", "images/hatter2.jpg", "images/hatter3.jpg", 
+                "images/hatter4.jpg", "images/hatter5.jpg", "images/hatter6.jpg", 
+                "images/hatter7.jpg", "images/hatter8.jpg", "images/hatter9.jpg", 
                 "images/hatter10.jpg"
             ];
             let currentImageIndex = 0;
@@ -537,18 +555,15 @@
             const bg1 = document.getElementById("bg1");
             const bg2 = document.getElementById("bg2");
             
-            let xPos1 = 0;
-            let xPos2 = 0;
-            let activeIndex = 1; 
-            let isFading = false; 
+            let xPos1 = 0; let xPos2 = 0;
+            let activeIndex = 1; let isFading = false; 
         
             const img1 = new Image(); img1.src = images[0];
             const img2 = new Image(); img2.src = images[1];
             
             setTimeout(() => {
                 for (let i = 2; i < images.length; i++) {
-                    const img = new Image();
-                    img.src = images[i];
+                    const img = new Image(); img.src = images[i];
                 }
             }, 3000);
 
@@ -561,24 +576,14 @@
                 
                 if (targetIndex === 2) {
                     bg2.style.backgroundImage = `url(${images[currentImageIndex]})`;
-                    xPos2 = 0; 
-                    bg2.style.transform = `scale(1.25) translateX(0px)`;
-                    
-                    bg1.classList.remove('active'); 
-                    bg2.classList.add('active');    
+                    xPos2 = 0; bg2.style.transform = `scale(1.25) translateX(0px)`;
+                    bg1.classList.remove('active'); bg2.classList.add('active');    
                 } else {
                     bg1.style.backgroundImage = `url(${images[currentImageIndex]})`;
-                    xPos1 = 0; 
-                    bg1.style.transform = `scale(1.25) translateX(0px)`;
-                    
-                    bg2.classList.remove('active'); 
-                    bg1.classList.add('active');    
+                    xPos1 = 0; bg1.style.transform = `scale(1.25) translateX(0px)`;
+                    bg2.classList.remove('active'); bg1.classList.add('active');    
                 }
-
-                setTimeout(() => {
-                    activeIndex = targetIndex;
-                    isFading = false;
-                }, 1500); 
+                setTimeout(() => { activeIndex = targetIndex; isFading = false; }, 1500); 
             }
 
             function animateBackground() {
@@ -587,31 +592,14 @@
                 const triggerDistance = maxPanDistance - (speed * 90); 
 
                 if (activeIndex === 1) {
-                    xPos1 -= speed;
-                    bg1.style.transform = `scale(1.25) translateX(${xPos1}px)`;
-                    
-                    if (isFading) {
-                        xPos2 -= speed;
-                        bg2.style.transform = `scale(1.25) translateX(${xPos2}px)`;
-                    }
-
-                    if (Math.abs(xPos1) >= triggerDistance && !isFading) {
-                        startFadeTo(2);
-                    }
+                    xPos1 -= speed; bg1.style.transform = `scale(1.25) translateX(${xPos1}px)`;
+                    if (isFading) { xPos2 -= speed; bg2.style.transform = `scale(1.25) translateX(${xPos2}px)`; }
+                    if (Math.abs(xPos1) >= triggerDistance && !isFading) { startFadeTo(2); }
                 } else {
-                    xPos2 -= speed;
-                    bg2.style.transform = `scale(1.25) translateX(${xPos2}px)`;
-                    
-                    if (isFading) {
-                        xPos1 -= speed;
-                        bg1.style.transform = `scale(1.25) translateX(${xPos1}px)`;
-                    }
-
-                    if (Math.abs(xPos2) >= triggerDistance && !isFading) {
-                        startFadeTo(1);
-                    }
+                    xPos2 -= speed; bg2.style.transform = `scale(1.25) translateX(${xPos2}px)`;
+                    if (isFading) { xPos1 -= speed; bg1.style.transform = `scale(1.25) translateX(${xPos1}px)`; }
+                    if (Math.abs(xPos2) >= triggerDistance && !isFading) { startFadeTo(1); }
                 }
-                
                 requestAnimationFrame(animateBackground);
             }
             animateBackground();
@@ -630,11 +618,7 @@
 
             // --- SCROLL REVEAL OBSERVER ---
             const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    }
-                });
+                entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add('active'); }});
             }, { threshold: 0.1 });
 
             document.querySelectorAll('.day-section').forEach((el) => {
