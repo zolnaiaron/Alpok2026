@@ -59,20 +59,18 @@
             transform: translate(-50%, -50%);
             font-family: 'Gagalin', sans-serif;
             font-size: 10rem;
-            color: #ffffff; /* Teljesen fehér betűk, nincsenek körvonalak, hogy látszódjanak a lyukak */
+            color: #ffffff;
             letter-spacing: 6px;
             white-space: nowrap;
             filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.8));
             animation: sink-anim 4s cubic-bezier(0.65, 0, 0.35, 1) forwards;
         }
 
-        /* AZ ANIMÁCIÓ LELKE: fentről középre, majd a végleges helyre zsugorodik */
         @keyframes sink-anim {
             0% { top: 50%; transform: translate(-50%, -50%) scale(0.9); filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.8)) blur(10px); opacity: 0; }
             15% { top: 50%; transform: translate(-50%, -50%) scale(1); filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.8)) blur(0px); opacity: 1; }
             50% { top: 50%; transform: translate(-50%, -50%) scale(1); filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.8)) blur(0px); opacity: 1; }
             85% {
-                /* Ide úszik be: ez pontosan a H1 helye és mérete (10rem * 0.4 = 4rem) */
                 top: 72px; 
                 transform: translate(-50%, -50%) scale(0.4);
                 opacity: 1;
@@ -222,7 +220,7 @@
             padding-bottom: 10px;
         }
 
-        /* --- PROGRAM PONTOK ELRENDEZÉSE --- */
+        /* --- PROGRAM PONTOK ELRENDEZÉSE ÉS LINK STÍLUSOK --- */
         .program-item {
             display: flex;
             align-items: flex-start; 
@@ -233,6 +231,18 @@
             border-radius: 12px;
             transition: all 0.3s ease;
             border: 1px solid transparent;
+        }
+
+        /* Ha a program-item egy link (<a> tag), távolítsuk el az aláhúzást és állítsuk be a színt */
+        a.program-item {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+        
+        /* A linkszerű dobozokban minden elem legyen pointer kurzoros */
+        a.program-item * {
+            cursor: pointer;
         }
 
         .program-item:hover {
@@ -330,38 +340,47 @@
 
         <section class="day-section">
             <h2>Április 30. Csütörtök</h2>
-            <div class="program-item">
+            
+            <a href="https://www.cento.ro/Transport/Marghita-Oradea" target="_blank" class="program-item">
                 <time class="time">08:00 – 09:05</time>
                 <div class="desc">Marghitta → Oradea <br><span class="sub-info">(Cento busz: utolsó megálló = Autogara Intrans SA)</span></div>
-            </div>
-            <div class="program-item">
+            </a>
+            
+            <a href="https://shop.flixbus.hu/search?departureCity=90805912-40f3-4c45-b288-15146d54689d&arrivalCity=40de6527-8646-11e6-9066-549f350fcb0c&route=Nagyv%C3%A1rad-Budapest&rideDate=30.04.2026&adult=1&_locale=hu&departureCountryCode=RO&arrivalCountryCode=HU&features%5Bfeature.enable_distribusion%5D=1&features%5Bfeature.train_cities_only%5D=0&features%5Bfeature.station_search%5D=0&features%5Bfeature.station_search_recommendation%5D=0&features%5Bfeature.darken_page%5D=1" target="_blank" class="program-item">
                 <time class="time">10:15 – 13:25</time>
                 <div class="desc">Oradea → Budapest Népliget (FlixBus)</div>
-            </div>
-            <div class="program-item">
+            </a>
+            
+            <a href="https://www.google.com/maps/place/Cafe+Podma/@47.5083939,19.0567586,18.8z/data=!4m6!3m5!1s0x4741dc12a842c11b:0xfa04eaee68fa8a07!8m2!3d47.5081521!4d19.0566742!16s%2Fg%2F1tdrd48x?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="program-item">
                 <time class="time">14:00 után</time>
                 <div class="desc">kávézás / könnyű étkezés</div>
-            </div>
+            </a>
+            
             <div class="program-item">
                 <time class="time">15:00 – 16:00</time>
                 <div class="desc">Meglepetés program ✨</div>
             </div>
-            <div class="program-item">
+            
+            <a href="https://www.google.com/maps/place/Burger+King+%C3%9Ajpest/@47.5602074,19.0879479,17z/data=!3m1!4b1!4m6!3m5!1s0x4741da365948853f:0x44ee77d2d69bf135!8m2!3d47.5602074!4d19.0905228!16s%2Fg%2F1pp2wwzl4?authuser=0&entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="program-item">
                 <time class="time">16:20 – 16:50</time>
                 <div class="desc">Burger King</div>
-            </div>
-            <div class="program-item">
+            </a>
+            
+            <a href="Menetrendek.hu - Helyközi menetrendi kereső - 419.pdf" target="_blank" class="program-item">
                 <time class="time">17:00 – 18:00</time>
                 <div class="desc">Budapest → Őrbottyán (busz)</div>
-            </div>
+            </a>
+            
             <div class="program-item">
                 <time class="time">18:00 – 20:00</time>
                 <div class="desc">Érkezés, pihenés, család, beszélgetés</div>
             </div>
+            
             <div class="program-item">
                 <time class="time">20:00 – 22:30</time>
                 <div class="desc">Filmnézés 🍿</div>
             </div>
+            
             <div class="program-item">
                 <time class="time">23:00</time>
                 <div class="desc">Alvás</div>
@@ -386,10 +405,12 @@
                 <time class="time">11:30</time>
                 <div class="desc">Megálló Sopronban – vásárlás, ebéd lehetősége</div>
             </div>
-            <div class="program-item">
+            
+            <a href="https://www.google.com/maps/place/Camping+Freizeitsee+Zenz/@47.5065384,15.072506,17z/data=!3m1!4b1!4m6!3m5!1s0x4771e5b1f6105d59:0x75dd06bb007eafe!8m2!3d47.5065384!4d15.0750809!16s%2Fg%2F1tjymjgz!5m1!1e4?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="program-item">
                 <time class="time">15:00 körül</time>
                 <div class="desc">Érkezés a kempinghez 🏕️</div>
-            </div>
+            </a>
+            
             <div class="program-item">
                 <time class="time">Délután</time>
                 <div class="desc">Szabad program</div>
@@ -402,14 +423,17 @@
                 <time class="time">07:30</time>
                 <div class="desc">Ébredés, pakolás, reggeli</div>
             </div>
-            <div class="program-item">
+            
+            <a href="Pichl-Großdorf Kirche › Tragöß-Oberort Grüner See (Seestraße_Parkplatz).pdf" target="_blank" class="program-item">
                 <time class="time">08:52 – 08:59</time>
                 <div class="desc">Pichl-Grossdorf → Oberort (Grüner See)</div>
-            </div>
-            <div class="program-item">
+            </a>
+            
+            <a href="https://www.bergfex.at/sommer/steiermark/touren/wanderung/677774,ueber-den-hochturm-2080m-mit-blick-auf-den-gruenen-see--rundwanderweg--oberort/" target="_blank" class="program-item">
                 <time class="time">09:00</time>
                 <div class="desc"><strong>Kirándulás indul</strong> 🏔️</div>
-            </div>
+            </a>
+            
             <div class="program-item">
                 <time class="time">19:00-ig</time>
                 <div class="desc">Visszaérkezés legkésőbb</div>
@@ -434,10 +458,12 @@
                 <time class="time">10:00</time>
                 <div class="desc">Indulás haza</div>
             </div>
-            <div class="program-item">
+            
+            <a href="Menetrendek.hu - Helyközi menetrendi kereső - 420.pdf" target="_blank" class="program-item">
                 <time class="time">17:40 – 21:13</time>
                 <div class="desc">Budapest Keleti → Nyírábrány <br><span class="sub-info">(román idő szerint érkezés: 22:13)</span></div>
-            </div>
+            </a>
+            
         </section>
 
         <section class="day-section list-container">
