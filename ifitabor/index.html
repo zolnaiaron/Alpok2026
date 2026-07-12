@@ -4,41 +4,428 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#000000">
-    <title>Tátra 2026 Ifitábor</title>
+    <meta name="format-detection" content="telephone=no">
+    <title>Tátra 2026 – Ifitábor</title>
     <link rel="icon" type="image/png" href="../images/favicon.png">
     <link rel="apple-touch-icon" href="../images/favicon.png">
     <link rel="manifest" href="../manifest.json">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/gagalin" rel="stylesheet">
+    
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
+        }
+        
+        *::-webkit-scrollbar {
+            display: none !important; 
+            width: 0;
+            height: 0;
+            background: transparent;
+        }
+
+        /* --- ALAP STÍLUSOK --- */
         body {
+            font-family: 'Montserrat', sans-serif;
             background-color: #000;
             color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* --- PARALLAX HÁTTÉR KONTÉNER --- */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120vh; /* Kicsit nagyobb a képernyőnél, hogy lehessen görgetni */
+            background-image: url('../images/hatter11.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            z-index: 0;
+            will-change: transform;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1;
+        }
+
+        /* --- TARTALOM --- */
+        .content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 60px 20px 100px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-family: 'Gagalin', sans-serif;
+            font-weight: normal; 
+            font-size: 4rem;
+            margin-bottom: 30px;
             text-align: center;
-            margin-top: 20%;
-            font-family: sans-serif;
-            font-size: 2rem;
+            letter-spacing: 4px;
+            background: linear-gradient(to right, #ffffff 0%, #d0d5da 50%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.8));
+            animation: fade-in-up 0.8s ease forwards;
+        }
+
+        /* Üvegkártya stílus */
+        .glass-panel { 
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            margin-bottom: 30px; 
+            animation: fade-in-up 0.8s ease forwards;
+        }
+
+        .intro-box p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .intro-box h2 {
+            font-family: 'Gagalin', sans-serif;
             letter-spacing: 2px;
-        }
-        
-        a {
-            color: #4a90e2;
-            text-decoration: none;
-            margin-top: 30px;
-            display: inline-block;
-            padding: 15px 30px;
-            border: 2px solid #4a90e2;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-        
-        a:hover {
-            background: #4a90e2;
             color: #fff;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .intro-box ul {
+            list-style: none;
+            margin-bottom: 30px;
+            padding-left: 0;
+        }
+
+        .intro-box li {
+            margin-bottom: 10px;
+            padding-left: 15px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .intro-box li::before {
+            content: "-";
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        /* --- VISSZASZÁMLÁLÓ STÍLUSOK --- */
+        .countdown-wrapper {
+            text-align: center;
+        }
+
+        .countdown-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 25px; 
+        }
+
+        .countdown-box {
+            text-align: center;
+            min-width: 70px;
+        }
+
+        .countdown-number {
+            font-family: 'Gagalin', sans-serif;
+            font-size: 3.2rem; 
+            color: #fff; 
+            display: block;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 5px;
+            color: #fff;
+            font-weight: bold;
+            opacity: 0.9;
+        }
+
+        /* --- GOMB STÍLUS --- */
+        .action-btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            font-family: 'Gagalin', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            color: #000; 
+            background: #fff; 
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.5);
+            background: #f0f0f0;
+        }
+
+        .action-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* --- HÁZIREND / BIBLIAI IGÉK STÍLUSOK --- */
+        .bible-verse {
+            background: rgba(255, 255, 255, 0.1); 
+            padding: 15px 20px;
+            margin: 25px 0 15px 0;
+            border-radius: 8px;
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .bible-quote {
+            font-style: italic;
+            font-size: 1.05rem;
+            color: #fff;
+        }
+
+        .bible-ref {
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            color: #fff; 
+            text-align: right;
+            font-size: 0.95rem;
+        }
+
+        .rule-explanation {
+            color: #ccc; 
+            font-size: 0.95rem;
+            font-weight: bold; 
+            text-align: left;
+            padding-top: 5px; 
+        }
+
+        .rules-list li {
+            margin-bottom: 15px;
+        }
+
+        @keyframes fade-in-up {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.5rem; margin-top: 20px; }
+            .glass-panel { padding: 25px 20px; }
+            
+            .countdown-container { gap: 15px; }
+            .countdown-number { font-size: 2.5rem; }
+            .countdown-label { font-size: 0.75rem; }
+            
+            .intro-box h2 { font-size: 1.6rem; }
         }
     </style>
 </head>
 <body>
-    <h1>Hamarosan...</h1>
-    <p style="margin-top: 30px; opacity: 0.8;">Az Ifitábor informális oldala hamarosan elérhető lesz.</p>
-    <a href="/ifitabor/regisztracio">Regisztráció</a>
+
+    <!-- A mozgó háttér konténere -->
+    <div class="background-container" id="bgContainer"></div>
+    <div class="overlay"></div>
+
+    <div class="content">
+        <h1>Tátra 2026</h1>
+
+        <!-- 1. RÉSZ: VISSZASZÁMLÁLÓ -->
+        <div class="glass-panel intro-box">
+            <div class="countdown-wrapper">
+                <div class="countdown-title">Visszaszámlálás a táborig</div>
+                <div class="countdown-container" id="countdown">
+                    <div class="countdown-box">
+                        <span class="countdown-number" id="days">00</span>
+                        <span class="countdown-label">Nap</span>
+                    </div>
+                    <div class="countdown-box">
+                        <span class="countdown-number" id="hours">00</span>
+                        <span class="countdown-label">Óra</span>
+                    </div>
+                    <div class="countdown-box">
+                        <span class="countdown-number" id="minutes">00</span>
+                        <span class="countdown-label">Perc</span>
+                    </div>
+                    <div class="countdown-box">
+                        <span class="countdown-number" id="seconds">00</span>
+                        <span class="countdown-label">Mp</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 1.5. RÉSZ: REGISZTRÁCIÓ -->
+        <div class="glass-panel intro-box" style="padding: 30px;">
+            <h2 style="margin-bottom: 20px;">Ha még nem regisztráltál:</h2>
+            <a href="https://www.obgyifi.hu/ifitabor/regisztracio" class="action-btn">Regisztráció</a>
+        </div>
+
+        <!-- 2. RÉSZ: FELSZERELÉS LISTA -->
+        <div class="glass-panel intro-box">
+            <h2>Túra információk</h2>
+            <p>A túrákra készülődve szeretném veletek megosztani hogy miket hozzatok magatokkal majd, lesz egy kisebb túra, az lazább lesz, és egy hosszabb túra is, az alábbi lista mindkettőre érvényes.</p>
+            
+            <p><strong style="color: #ff4d4d;">KÖTELEZŐ:</strong></p>
+            <ul>
+                <li><strong>Túra cipő / terepfutó cipő / túra bakancs</strong> (A boka sérülések a leggyakoribbak a hegyekben, általában a nem megfelelő cipő miatt, így ezt légyszi vegyétek komolyan, illetve ha fent elered az eső fontos hogy jól tapadjon, így egy sportcipő kevés lesz ide)</li>
+                <li><strong>Esőkabát</strong> (a hegyek szeszélyesek)</li>
+                <li><strong>Kalap / kendő</strong></li>
+                <li><strong>min. 2 l víz/fő</strong></li>
+                <li><strong>EU egészségügyi kártya</strong></li>
+            </ul>
+
+            <p><strong style="color: #4a90e2;">AJÁNLOTT:</strong></p>
+            <ul>
+                <li>Váltózokni</li>
+                <li>Napszemüveg (Napszemcsi)</li>
+                <li>Naptej - az orrodra is kenjél!</li>
+                <li>Nasi</li>
+                <li>Térdrögzítő / bokarögzítő ha tudod hogy valamid gyenge</li>
+                <li>Költőpénz</li>
+            </ul>
+        </div>
+
+        <!-- 3. RÉSZ: TÁBOR HÁZIRENDJE -->
+        <div class="glass-panel intro-box">
+            <h2>Tábor házirendje</h2>
+            <p>Szeretnénk, hogy ez a tábor egy olyan hely legyen, ahol mindannyian békében, szeretetben és egymást tisztelve lehetünk együtt. A szabályok nem azért vannak, hogy korlátozzanak minket, hanem azért, hogy segítsék a közösséget, és hogy mindenki jól érezhesse magát.</p>
+
+            <div class="bible-verse">
+                <div class="bible-quote">"Ne ítélgessük hát többé egymást, hanem azt ítéljétek meg inkább, miként nem okoztok a testvéreteknek megütközést vagy botránkozást."</div>
+                <div class="bible-ref">Róma 14:13</div>
+                <div class="rule-explanation">Másokat ne botránkoztassunk meg.</div>
+            </div>
+
+            <div class="bible-verse">
+                <div class="bible-quote">"Jobb tehát nem enni húst, nem inni bort és semmi olyat, amin testvéred megütközik."</div>
+                <div class="bible-ref">Róma 14:21</div>
+                <div class="rule-explanation">Ne vigyük a másikat kísértésbe.</div>
+            </div>
+
+            <div class="bible-verse">
+                <div class="bible-quote">"Kerüljétek a paráznaságot! Minden más bűn, amit elkövet az ember, kívül van a testén, de aki paráználkodik, a saját teste ellen vétkezik. Vagy nem tudjátok, hogy testetek a bennetek levő Szentlélek temploma, akit Istentől kaptatok, és ezért nem a magatokéi vagytok?"</div>
+                <div class="bible-ref">1Korinthus 6:18–20</div>
+                <div class="rule-explanation">Nemi együttlét csak házastársak között.</div>
+            </div>
+
+            <div class="bible-verse">
+                <div class="bible-quote">"Ne részegedjetek meg bortól, amelyben pusztulás van, hanem teljetek meg Lélekkel"</div>
+                <div class="bible-ref">Efézus 5:18</div>
+                <div class="rule-explanation">A tábor ideje alatt tartózkodjunk az alkoholtól, mert Isten ennél sokkal jobb dolgokkal szeretne betölteni minket.</div>
+            </div>
+
+            <div class="bible-verse">
+                <div class="bible-quote">"Semmiféle bomlasztó beszéd ne hagyja el a szátokat, hanem csak akkor szóljatok, ha az jó a szükséges építésre, hogy áldást hozzon azokra, akik hallják."</div>
+                <div class="bible-ref">Efézus 4:29</div>
+                <div class="rule-explanation">Maradjunk távol a csúnya és másokat romboló beszédtől.</div>
+            </div>
+
+            <p><strong>Ezen kívül:</strong></p>
+            <ul class="rules-list">
+                <li>Semmi sem kötelező, csak a tanításokon való részvétel.</li>
+                <li>Ha valaki szeretne elmenni, kérjük, jelezze a csoportban. Senkit nem tartunk vissza, a távozás szabadságát tiszteletben tartjuk.</li>
+                <li>A túrákon való részvétel nem kötelező. Ha valaki inkább a szálláson maradna pihenni, azt is elfogadjuk.</li>
+                <li>Az alvásra nincs külön korlátozás, viszont <strong>éjfél után kérünk mindenkit, hogy halkabban beszélgessen</strong>, hogy mindenki megfelelően ki tudja pihenni magát.</li>
+            </ul>
+
+            <p style="margin-top: 20px; font-style: italic; opacity: 0.9;">
+                <em>Szeretnénk, hogy a táborban mindenki szabadnak és otthonosan érezze magát. Ezek a szabályok nem ellenünk vannak, hanem értünk: azért, hogy figyeljünk egymásra, megőrizzük a békességet, és együtt egy áldott, örömteli időt tölthessünk el.</em>
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        // --- VISSZASZÁMLÁLÓ LOGIKA ---
+        const countDownDate = new Date("Aug 9, 2026 10:00:00").getTime();
+
+        const countdownInterval = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countDownDate - now;
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("countdown").innerHTML = "<div class='countdown-title' style='color:#fff; font-size:1.8rem; margin: 0;'>A TÁBOR ELKEZDŐDÖTT!</div>";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+        }, 1000);
+
+        // --- GÖRGETÉS FIGYELÉSE (Parallax a háttérnek) ---
+        const bgContainer = document.getElementById('bgContainer');
+        
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            
+            if (docHeight > 0) {
+                const scrollPercent = scrollPosition / docHeight;
+                // A maxBgScroll határozza meg, mennyi mozgást engedünk a képnek
+                const maxBgScroll = bgContainer.offsetHeight - window.innerHeight; 
+                const yOffset = scrollPercent * maxBgScroll;
+                
+                bgContainer.style.transform = `translateY(${-yOffset}px)`;
+            }
+        });
+    </script>
 </body>
 </html>
