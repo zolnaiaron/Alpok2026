@@ -3,26 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Botyi Ifjúság – Linkek</title>
+    <title>Ifi Linktree</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     
-    <!-- Modern Google Fontok: Poppins és Gagalin (az egységes arculatért) -->
+    <!-- Modern Google Fontok -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/gagalin" rel="stylesheet">
     
     <style>
-        /* --- ALAP BEÁLLÍTÁSOK ÉS VÁLTOZÓK --- */
-        :root {
-            --blue-400: #60A5FA;
-            --blue-500: #3B82F6;
-            --blue-600: #2563EB;
-            --glass-bg: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.15);
-            --text-main: #ffffff;
-            --text-muted: rgba(255, 255, 255, 0.7);
-        }
-
         * {
             box-sizing: border-box;
             margin: 0;
@@ -31,13 +21,13 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            color: var(--text-main);
+            color: #ffffff;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            overflow-x: hidden;
+            align-items: center;
             background-color: #000;
+            overflow-x: hidden;
         }
 
         /* --- HÁTTÉR ÉS OVERLAY --- */
@@ -47,16 +37,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* A háttérkép útvonala (állítsd be a megfelelőre) */
-            background-image: url('../images/hatter.jpg');
+            background-image: url('../images/tuz.png'); 
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             z-index: -2;
-            filter: blur(8px) brightness(0.8);
-            /* Scale szükséges, hogy a blur ne mosódjon el a képernyő szélén */
-            transform: scale(1.1); 
-            animation: slowFloat 30s ease-in-out infinite;
+            filter: blur(5px);
+            transform: scale(1.05); /* Eltünteti a blur miatti fehér széleket */
         }
 
         .overlay {
@@ -65,244 +52,141 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%);
+            background: rgba(0, 0, 0, 0.7); /* Sötétítő réteg */
             z-index: -1;
         }
 
-        /* --- TARTALOM KONTÉNER --- */
-        .content-wrapper {
+        /* --- LINKTREE KONTÉNER --- */
+        .linktree-container {
             width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 40px 20px;
+            max-width: 480px; /* Klasszikus Linktree (mobil-fókuszú) szélesség */
+            padding: 60px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            z-index: 1;
+            animation: fadeIn 0.8s ease-out;
         }
 
-        /* --- GLASSMORPHISM KÁRTYA --- */
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            padding: 50px 40px;
-            width: 100%;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            animation: fadeInUp 0.8s ease-out forwards;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        /* --- PROFIL/LOGÓ SZEKCIÓ --- */
+        .profile-pic {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            
+            /* A megadott logó beállítása */
+            background-image: url('../images/profil.png'); 
+            background-size: contain; /* Hogy a logó ne vágódjon le */
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
-        /* --- HERO SZEKCIÓ --- */
-        .hero {
-            text-align: center;
-            margin-bottom: 40px;
-            width: 100%;
-        }
-
-        .hero h1 {
+        .header-title {
             font-family: 'Gagalin', sans-serif;
             font-weight: normal; 
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            letter-spacing: 3px;
-            background: linear-gradient(to right, #ffffff, var(--blue-400));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.6));
+            font-size: 2.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            text-align: center;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
 
-        .hero p {
-            font-size: 1.1rem;
+        .header-bio {
+            font-size: 1rem;
             font-weight: 300;
-            color: var(--text-muted);
-            letter-spacing: 1px;
+            color: #cccccc;
+            margin-bottom: 35px;
+            text-align: center;
         }
 
-        /* --- LINKEK (GOMBOK) --- */
-        .links-container {
+        /* --- LINKEK / GOMBOK --- */
+        .links-wrapper {
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px; /* Gombok közötti távolság */
         }
 
         .link-btn {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            display: block;
             width: 100%;
-            min-height: 64px;
-            padding: 16px 24px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
+            padding: 18px 24px;
+            text-align: center;
             text-decoration: none;
-            color: var(--text-main);
-            font-size: 1.15rem;
+            color: #ffffff;
+            font-size: 1.05rem;
             font-weight: 500;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUpStaggered 0.6s ease-out forwards;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 30px; /* Klasszikus kapszula forma */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
         }
 
-        /* Lépcsőzetes animáció késleltetés */
-        .link-btn:nth-child(1) { animation-delay: 0.2s; }
-        .link-btn:nth-child(2) { animation-delay: 0.3s; }
-        .link-btn:nth-child(3) { animation-delay: 0.4s; }
-        .link-btn:nth-child(4) { animation-delay: 0.5s; }
-
-        .link-content {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            z-index: 2;
-        }
-
-        .link-icon {
-            font-size: 1.4rem;
-        }
-
-        .link-arrow {
-            color: var(--blue-400);
-            transition: transform 0.3s ease;
-            z-index: 2;
-        }
-
-        .link-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(37, 99, 235, 0.1));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 1;
-        }
-
-        /* Hover effektek */
+        /* Letisztult hover effekt */
         .link-btn:hover {
-            transform: translateY(-4px) scale(1.02);
-            border-color: var(--blue-500);
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
-            color: #fff;
-        }
-
-        .link-btn:hover::before {
-            opacity: 1;
-        }
-
-        .link-btn:hover .link-arrow {
-            transform: translateX(5px);
-            color: #fff;
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.02);
         }
 
         .link-btn:active {
-            transform: translateY(1px) scale(0.99);
+            transform: scale(0.99);
         }
 
-        /* --- ANIMÁCIÓK KULCSKERETEK --- */
-        @keyframes fadeInUp {
-            0% { opacity: 0; transform: translateY(40px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInUpStaggered {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slowFloat {
-            0% { transform: scale(1.1) translate(0, 0); }
-            33% { transform: scale(1.15) translate(-1%, -1%); }
-            66% { transform: scale(1.12) translate(1%, 1%); }
-            100% { transform: scale(1.1) translate(0, 0); }
+        /* --- ANIMÁCIÓ --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* --- RESZPONZIVITÁS --- */
         @media (max-width: 480px) {
-            .hero h1 { font-size: 2.8rem; }
-            .hero p { font-size: 0.95rem; }
-            .glass-card { padding: 40px 25px; border-radius: 24px; }
-            .link-btn { min-height: 56px; padding: 14px 20px; font-size: 1.05rem; }
-            .link-content { gap: 12px; }
+            .header-title { font-size: 2.4rem; }
+            .profile-pic { width: 80px; height: 80px; }
+            .link-btn { padding: 16px 20px; font-size: 1rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Háttér és sötétített overlay -->
+    <!-- Háttér -->
     <div class="background-container"></div>
     <div class="overlay"></div>
 
-    <div class="content-wrapper">
-        <div class="glass-card">
-            
-            <!-- Hero Szekció -->
-            <header class="hero">
-                <h1>Botyi Ifjúság</h1>
-                <p>Minden fontos információ egy helyen.</p>
-            </header>
+    <!-- Fő tartalom -->
+    <div class="linktree-container">
+        
+        <!-- Profilkép / Logó helye -->
+        <div class="profile-pic"></div>
 
-            <!-- Gombok listája -->
-            <nav class="links-container">
-                
-                <a href="https://www.instagram.com/botyiifi/" target="_blank" rel="noopener noreferrer" class="link-btn">
-                    <div class="link-content">
-                        <span class="link-icon">📸</span>
-                        <span>Instagram</span>
-                    </div>
-                    <svg class="link-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M5 12h14"></path>
-                        <path d="M12 5l7 7-7 7"></path>
-                    </svg>
-                </a>
+        <!-- Fejléc -->
+        <h1 class="header-title">OBGY IFI</h1>
+        <p class="header-bio">Minden fontos információ egy helyen.</p>
 
-                <a href="https://www.obgyifi.hu/ifitabor" class="link-btn">
-                    <div class="link-content">
-                        <span class="link-icon">🏕️</span>
-                        <span>Ifitábor információs oldal</span>
-                    </div>
-                    <svg class="link-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M5 12h14"></path>
-                        <path d="M12 5l7 7-7 7"></path>
-                    </svg>
-                </a>
+        <!-- Gombok -->
+        <div class="links-wrapper">
+            <a href="https://www.instagram.com/botyiifi/" target="_blank" rel="noopener noreferrer" class="link-btn">
+                Instagram
+            </a>
 
-                <a href="https://www.obgyifi.hu/ifitabor/regisztracio" class="link-btn">
-                    <div class="link-content">
-                        <span class="link-icon">📝</span>
-                        <span>Ifitábor regisztráció</span>
-                    </div>
-                    <svg class="link-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M5 12h14"></path>
-                        <path d="M12 5l7 7-7 7"></path>
-                    </svg>
-                </a>
+            <a href="https://www.obgyifi.hu/ifitabor" class="link-btn">
+                Ifitábor információs oldal
+            </a>
 
-                <a href="https://www.obgyifi.hu/ifitabor/enekbekuldes" class="link-btn">
-                    <div class="link-content">
-                        <span class="link-icon">🎵</span>
-                        <span>Ifitábor ének beküldés</span>
-                    </div>
-                    <svg class="link-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M5 12h14"></path>
-                        <path d="M12 5l7 7-7 7"></path>
-                    </svg>
-                </a>
+            <a href="https://www.obgyifi.hu/ifitabor/regisztracio" class="link-btn">
+                Ifitábor regisztráció
+            </a>
 
-            </nav>
-
+            <a href="https://www.obgyifi.hu/ifitabor/enekbekuldes" class="link-btn">
+                Ifitábor ének beküldés
+            </a>
         </div>
+
     </div>
 
 </body>
