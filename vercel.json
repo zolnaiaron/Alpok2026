@@ -13,6 +13,14 @@
       "destination": "/ifitabor/regisztracio.html"
     },
     {
+      "source": "/ifitabor/enekbekuldes",
+      "destination": "/ifitabor/enekbekuldes.html"
+    },
+    {
+      "source": "/ifitabor/enekbekuldes/",
+      "destination": "/ifitabor/enekbekuldes.html"
+    },
+    {
       "source": "/utazas",
       "destination": "/utazas.html"
     },
