@@ -88,8 +88,9 @@
             opacity: 0.8;
         }
 
-        /* --- ADMIN GOMB --- */
+        /* --- ADMIN GOMB (Alapból rejtve IP miatt) --- */
         .admin-toggle {
+            display: none; /* REJTETT */
             position: absolute;
             top: 0;
             right: 0;
@@ -395,12 +396,32 @@
 
     <script>
         // FONTOS: IDE ILLESZD BE A GOOGLE APPS SCRIPT LINKEDET!
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbxVfc3J26qCiR4AC2yRE0L9fI9SfccCQtBwOTdq2LDERdBoukO_I9CvLkox_LxW22AYNA/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwWLOs344ncRZsbaZq6y1K8qaQnbDz-ob6VR8kvzlyhM0bay2LhQmr6PV8OVa7jRu2jVQ/exec';
 
         // 1. ADATBÁZIS
         let scheduleData = []; 
         const daysOrder = ["Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök"];
         let isAdmin = false;
+
+        // --- ÚJ: IP ALAPÚ GOMB MEGJELENÍTÉS ---
+        async function checkIpAndShowAdminButton() {
+            try {
+                // Lekérdezzük a látogató IP címét
+                let ipResponse = await fetch('https://api.ipify.org?format=json');
+                let ipData = await ipResponse.json();
+                let userIp = ipData.ip;
+
+                // Elküldjük ellenőrzésre az Apps Scriptnek
+                let checkResponse = await fetch(scriptURL + '?type=checkIp&ip=' + encodeURIComponent(userIp));
+                let checkData = await checkResponse.json();
+
+                if (checkData.allowed === true) {
+                    document.getElementById("adminToggle").style.display = "block";
+                }
+            } catch (error) {
+                console.error("IP ellenőrzési hiba:", error);
+            }
+        }
 
         // --- ADATOK BETÖLTÉSE A GOOGLE SHEETS-BŐL ---
         function fetchSchedule() {
@@ -508,7 +529,6 @@
 
             // Jelszó küldése a Google Sheets-nek ellenőrzésre
             try {
-                // Kérlek, hogy a betöltés idejére jelezzük, hogy dolgozik a rendszer
                 btn.innerText = "Ellenőrzés...";
                 
                 let response = await fetch(scriptURL + '?type=verifyAdmin&pwd=' + encodeURIComponent(pwd));
@@ -643,25 +663,26 @@
 
         // --- 7. INDÍTÁS ÉS ÉLŐ (GLOBÁLIS) FRISSÍTÉS ---
         
-        // Oldal betöltésekor indítunk
+        // 1. IP ellenőrzés a gomb megjelenítéséhez
+        checkIpAndShowAdminButton();
+        
+        // 2. Oldal betöltésekor letöltjük az adatokat
         fetchSchedule();
 
-        // 10 másodpercenként lekérdezzük a szervert, hogy változott-e valami (Polling)
+        // 3. 10 másodpercenként lekérdezzük a szervert, hogy változott-e valami (Polling)
         setInterval(() => {
-            // Megállítjuk a frissítést, ha a szerkesztő ablak nyitva van, vagy épp elemet húzunk
             if (document.getElementById("editModal").classList.contains("active") || draggedId !== null) return;
 
             fetch(scriptURL + '?type=program')
                 .then(response => response.json())
                 .then(data => {
-                    // Ha a szerverről jövő adat nem egyezik meg a jelenlegivel, újrarendereljük az oldalt
                     if (JSON.stringify(data) !== JSON.stringify(scheduleData)) {
                         scheduleData = data;
                         renderApp();
                     }
                 })
                 .catch(error => console.error("Háttérfrissítési hiba:", error));
-        }, 10000); // 10000 ms = 10 másodperc
+        }, 10000); 
 
     </script>
 </body>
