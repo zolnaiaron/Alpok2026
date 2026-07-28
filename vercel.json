@@ -13,11 +13,11 @@
       "destination": "/ifitabor/regisztracio.html"
     },
     {
-      "source": "/ifitabor/programtervezo",
+      "source": "/ifitabor/program",
       "destination": "/ifitabor/programtervezo.html"
     },
     {
-      "source": "/ifitabor/programtervezo/",
+      "source": "/ifitabor/program/",
       "destination": "/ifitabor/programtervezo.html"
     },
     {
