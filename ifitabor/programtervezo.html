@@ -395,7 +395,7 @@
 
     <script>
         // FONTOS: IDE ILLESZD BE A GOOGLE APPS SCRIPT LINKEDET!
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbw2Hw7KhrHHlZQfmwSpmfEj8sAcOCvl3FSa9pko-8PWWPnOrQvAPYc5XpJxUCk1CmynOA/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwA7ChapKIg6zlE1_qcf55V9Lw1x25oYWmgKuhpnSF1kal_elJEFXMKQ1qondBIJ-_KVQ/exec';
 
         // 1. ADATBÁZIS
         let scheduleData = []; 
@@ -405,7 +405,9 @@
         // --- ADATOK BETÖLTÉSE A GOOGLE SHEETS-BŐL ---
         function fetchSchedule() {
             const container = document.getElementById("schedule-container");
-            container.innerHTML = '<div style="text-align:center; padding:50px; font-size: 1.2rem;">Adatok betöltése a Google Táblázatból...</div>';
+            if (scheduleData.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:50px; font-size: 1.2rem;">Adatok betöltése a Google Táblázatból...</div>';
+            }
 
             fetch(scriptURL + '?type=program')
                 .then(response => response.json())
@@ -415,7 +417,9 @@
                 })
                 .catch(error => {
                     console.error("Hiba a betöltéskor:", error);
-                    container.innerHTML = '<div style="text-align:center; color:#ff4d4d;">Hiba történt az adatok betöltésekor. Ellenőrizd az URL-t!</div>';
+                    if (scheduleData.length === 0) {
+                        container.innerHTML = '<div style="text-align:center; color:#ff4d4d;">Hiba történt az adatok betöltésekor. Ellenőrizd az URL-t!</div>';
+                    }
                 });
         }
 
@@ -427,7 +431,6 @@
             daysOrder.forEach(day => {
                 let dayEvents = scheduleData.filter(e => e.day === day);
                 
-                // JAVÍTOTT RENDEZÉSI LOGIKA
                 dayEvents.sort((a, b) => {
                     const normalizeTime = (t) => {
                         if (!t) return "99:99"; 
@@ -491,8 +494,9 @@
             const app = document.getElementById("app-content");
             
             if (isAdmin) {
-                let pwd = prompt("Kérem az admin jelszót (tipp: admin):");
-                if (pwd !== "admin") { isAdmin = false; return; }
+                // Csak annyit ír ki: jelszo, és timi-t vár kisbetűvel
+                let pwd = prompt("jelszo");
+                if (pwd !== "timi") { isAdmin = false; return; }
                 
                 btn.innerText = "Admin Mód: BE";
                 btn.classList.add("active");
@@ -615,8 +619,28 @@
             });
         }
 
-        // Indítás: az oldal betöltésekor azonnal kérje le az adatokat
+        // --- 7. INDÍTÁS ÉS ÉLŐ (GLOBÁLIS) FRISSÍTÉS ---
+        
+        // Oldal betöltésekor indítunk
         fetchSchedule();
+
+        // 10 másodpercenként lekérdezzük a szervert, hogy változott-e valami (Polling)
+        setInterval(() => {
+            // Megállítjuk a frissítést, ha a szerkesztő ablak nyitva van, vagy épp elemet húzunk
+            if (document.getElementById("editModal").classList.contains("active") || draggedId !== null) return;
+
+            fetch(scriptURL + '?type=program')
+                .then(response => response.json())
+                .then(data => {
+                    // Ha a szerverről jövő adat nem egyezik meg a jelenlegivel, újrarendereljük az oldalt
+                    if (JSON.stringify(data) !== JSON.stringify(scheduleData)) {
+                        scheduleData = data;
+                        renderApp();
+                    }
+                })
+                .catch(error => console.error("Háttérfrissítési hiba:", error));
+        }, 10000); // 50000 ms = 10 másodperc
+
     </script>
 </body>
 </html>
