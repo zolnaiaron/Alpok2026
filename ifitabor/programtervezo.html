@@ -517,7 +517,7 @@
             if (isAdmin) {
                 // Kilépés admin módból
                 isAdmin = false;
-                btn.innerText = "Admin Mód: KI";
+                btn.innerText = "Admin Mod: Off";
                 btn.classList.remove("active");
                 app.classList.remove("admin-mode");
                 renderApp();
@@ -537,7 +537,7 @@
                 
                 if (result.success === true) {
                     isAdmin = true;
-                    btn.innerText = "Admin Mód: BE";
+                    btn.innerText = "Admin Mod: On";
                     btn.classList.add("active");
                     app.classList.add("admin-mode");
                     renderApp();
