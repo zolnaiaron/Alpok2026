@@ -395,7 +395,7 @@
 
     <script>
         // FONTOS: IDE ILLESZD BE A GOOGLE APPS SCRIPT LINKEDET!
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwA7ChapKIg6zlE1_qcf55V9Lw1x25oYWmgKuhpnSF1kal_elJEFXMKQ1qondBIJ-_KVQ/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxVfc3J26qCiR4AC2yRE0L9fI9SfccCQtBwOTdq2LDERdBoukO_I9CvLkox_LxW22AYNA/exec';
 
         // 1. ADATBÁZIS
         let scheduleData = []; 
@@ -488,25 +488,47 @@
         }
 
         // --- 3. ADMIN MÓD ---
-        function toggleAdmin() {
-            isAdmin = !isAdmin;
+        async function toggleAdmin() {
             const btn = document.getElementById("adminToggle");
             const app = document.getElementById("app-content");
             
             if (isAdmin) {
-                // Csak annyit ír ki: jelszo, és timi-t vár kisbetűvel
-                let pwd = prompt("jelszo");
-                if (pwd !== "timi") { isAdmin = false; return; }
-                
-                btn.innerText = "Admin Mód: BE";
-                btn.classList.add("active");
-                app.classList.add("admin-mode");
-            } else {
+                // Kilépés admin módból
+                isAdmin = false;
                 btn.innerText = "Admin Mód: KI";
                 btn.classList.remove("active");
                 app.classList.remove("admin-mode");
+                renderApp();
+                return;
             }
-            renderApp();
+
+            // Csak annyit ír ki: jelszo
+            let pwd = prompt("jelszo");
+            if (!pwd) return; // Ha a Mégse gombra nyomott
+
+            // Jelszó küldése a Google Sheets-nek ellenőrzésre
+            try {
+                // Kérlek, hogy a betöltés idejére jelezzük, hogy dolgozik a rendszer
+                btn.innerText = "Ellenőrzés...";
+                
+                let response = await fetch(scriptURL + '?type=verifyAdmin&pwd=' + encodeURIComponent(pwd));
+                let result = await response.json();
+                
+                if (result.success === true) {
+                    isAdmin = true;
+                    btn.innerText = "Admin Mód: BE";
+                    btn.classList.add("active");
+                    app.classList.add("admin-mode");
+                    renderApp();
+                } else {
+                    btn.innerText = "Admin Mód: KI";
+                    alert("Helytelen jelszó!");
+                }
+            } catch (error) {
+                console.error("Hiba a jelszó ellenőrzésekor:", error);
+                btn.innerText = "Admin Mód: KI";
+                alert("Hiba történt a szerverrel való kommunikáció során.");
+            }
         }
 
         // --- 4. CRUD MŰVELETEK ---
@@ -639,7 +661,7 @@
                     }
                 })
                 .catch(error => console.error("Háttérfrissítési hiba:", error));
-        }, 10000); // 50000 ms = 10 másodperc
+        }, 10000); // 10000 ms = 10 másodperc
 
     </script>
 </body>
