@@ -428,7 +428,7 @@
         function fetchSchedule() {
             const container = document.getElementById("schedule-container");
             if (scheduleData.length === 0) {
-                container.innerHTML = '<div style="text-align:center; padding:50px; font-size: 1.2rem;">Adatok betöltése a Google Táblázatból...</div>';
+                container.innerHTML = '<div style="text-align:center; padding:50px; font-size: 1.2rem;">Adatok betöltése...</div>';
             }
 
             fetch(scriptURL + '?type=program')
