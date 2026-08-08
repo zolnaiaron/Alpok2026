@@ -82,31 +82,26 @@
             margin-bottom: 10px;
         }
 
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+
         /* --- ÚJ: IDŐJÁRÁS WIDGET --- */
         #weather-widget {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
             font-size: 1rem;
             font-weight: 600;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.3);
             padding: 8px 15px;
             border-radius: 20px;
-            margin-bottom: 15px;
+            margin-top: 15px; /* Helykihagyás a subtitle alatt */
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-        }
-
-        .weather-icon {
-            font-size: 1.3rem;
-        }
-
-        .subtitle {
-            font-size: 1.2rem;
-            font-weight: 300;
-            letter-spacing: 2px;
-            opacity: 0.8;
         }
 
         /* --- ADMIN GOMB --- */
@@ -409,7 +404,6 @@
 
     <!-- ÚJ: ALVÁS KÉPERNYŐ -->
     <div id="sleep-screen">
-        <div style="font-size: 4rem;">🌙</div>
         <h2>Alvás van<br>gyermekem</h2>
         <p>Jó éjszakát!</p>
     </div>
@@ -421,14 +415,12 @@
         <header>
             <button class="admin-toggle" id="adminToggle" onclick="toggleAdmin()">Admin Mód: KI</button>
             <h1>Program</h1>
+            <div class="subtitle">2026. augusztus 9–13. • Tátra</div>
             
-            <!-- ÚJ: IDŐJÁRÁS DOBOZ -->
+            <!-- ÁTHELYEZVE: IDŐJÁRÁS DOBOZ -->
             <div id="weather-widget">
-                <span class="weather-icon" id="w-icon">⏳</span>
                 <span id="w-text">Időjárás betöltése...</span>
             </div>
-
-            <div class="subtitle">2026. augusztus 9–13. • Tátra</div>
         </header>
 
         <div id="schedule-container">
@@ -502,7 +494,7 @@
             }
         }
 
-        // --- ÚJ: FELSŐERDŐFALVA IDŐJÁRÁS ---
+        // --- ÚJ: FELSŐERDŐFALVA IDŐJÁRÁS (Emoji nélkül) ---
         async function fetchWeather() {
             try {
                 // Felsőerdőfalva (Stará Lesná) koordinátái: 49.12, 20.31
@@ -510,24 +502,11 @@
                 const data = await response.json();
                 
                 const temp = Math.round(data.current_weather.temperature);
-                const code = data.current_weather.weathercode;
                 
-                // Időjárás kódok átalakítása emojivá
-                let icon = "🌤️";
-                if (code === 0) icon = "☀️"; // Tiszta ég
-                else if (code >= 1 && code <= 3) icon = "⛅"; // Felhős
-                else if (code >= 45 && code <= 48) icon = "🌫️"; // Köd
-                else if (code >= 51 && code <= 67) icon = "🌧️"; // Eső
-                else if (code >= 71 && code <= 77) icon = "❄️"; // Hó
-                else if (code >= 80 && code <= 82) icon = "🌦️"; // Zápor
-                else if (code >= 95) icon = "⛈️"; // Vihar
-
-                document.getElementById('w-icon').innerText = icon;
                 document.getElementById('w-text').innerText = `Felsőerdőfalva: ${temp}°C`;
             } catch (error) {
                 console.error("Hiba az időjárás betöltésekor", error);
-                document.getElementById('w-icon').innerText = "🏔️";
-                document.getElementById('w-text').innerText = "Felsőerdőfalva";
+                document.getElementById('w-text').innerText = "Felsőerdőfalva időjárása nem elérhető";
             }
         }
 
