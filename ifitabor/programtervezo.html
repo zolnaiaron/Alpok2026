@@ -163,12 +163,31 @@
             padding: 20px;
             display: flex;
             align-items: center;
-            transition: transform 0.2s, background 0.2s;
+            transition: transform 0.2s, background 0.3s, border-color 0.3s, box-shadow 0.3s;
             position: relative;
         }
 
         .program-card:hover {
             background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- AKTUÁLIS PROGRAM ZÖLD KIEMELÉSE --- */
+        .program-card.active-event {
+            background: rgba(144, 238, 144, 0.15); 
+            border: 1px solid rgba(144, 238, 144, 0.6);
+            box-shadow: 0 0 20px rgba(144, 238, 144, 0.15);
+        }
+        /* Zöldes csík a bal szélén a még egyértelműbb jelzéshez */
+        .program-card.active-event::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10%;
+            height: 80%;
+            width: 4px;
+            background-color: #90ee90;
+            border-radius: 0 5px 5px 0;
+            box-shadow: 0 0 10px rgba(144, 238, 144, 0.5);
         }
 
         .program-card.dragging {
@@ -404,15 +423,95 @@
         const daysOrder = ["Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök"];
         let isAdmin = false;
 
-        // --- ÚJ: IP ALAPÚ GOMB MEGJELENÍTÉS ---
+        // Tátra dátumok párosítása a napokhoz (Az aktuális program jelöléséhez)
+        const tripDates = {
+            "Vasárnap": "2026-08-09",
+            "Hétfő": "2026-08-10",
+            "Kedd": "2026-08-11",
+            "Szerda": "2026-08-12",
+            "Csütörtök": "2026-08-13"
+        };
+
+        // Közös idő-normalizáló függvény (hogy az updateActiveEvent is tudja használni)
+        const normalizeTime = (t) => {
+            if (!t) return "99:99"; 
+            if (t === "00:00") return "24:00"; 
+            if (t.includes(':')) {
+                let parts = t.split(':');
+                let hour = parts[0].trim().padStart(2, '0');
+                let min = parts[1].trim().padStart(2, '0');
+                return `${hour}:${min}`;
+            }
+            return t; 
+        };
+
+        // --- ÚJ: AKTUÁLIS PROGRAM KIEMELÉSE ---
+        function updateActiveEvent() {
+            const now = new Date();
+            
+            // TESZTELÉSHEZ: Töröld ki az alsó sort a "//" mögül, ha tesztelni akarod ma
+            // const now = new Date('2026-08-09T09:45:00'); 
+
+            // Formázzuk a mai dátumot (YYYY-MM-DD) és időt (HH:MM)
+            const currentYMD = now.getFullYear() + "-" +
+                               String(now.getMonth() + 1).padStart(2, '0') + "-" +
+                               String(now.getDate()).padStart(2, '0');
+            const currentTimeStr = String(now.getHours()).padStart(2, '0') + ":" +
+                                   String(now.getMinutes()).padStart(2, '0');
+
+            // Kiderítjük, hogy a tábor melyik napján vagyunk
+            let todayName = null;
+            for (let [dayName, dateStr] of Object.entries(tripDates)) {
+                if (dateStr === currentYMD) {
+                    todayName = dayName;
+                    break;
+                }
+            }
+
+            // Kártyákról leszedjük a kiemelést
+            document.querySelectorAll('.program-card').forEach(card => card.classList.remove('active-event'));
+
+            if (!todayName) return; // Ha nem a tábor napja van, megszakítjuk
+
+            let todaysEvents = scheduleData.filter(e => e.day === todayName);
+            // Sorbarendezzük idő szerint (ugyanúgy ahogy rendereléskor)
+            todaysEvents.sort((a, b) => normalizeTime(a.time).localeCompare(normalizeTime(b.time)));
+
+            let activeEventId = null;
+
+            for (let i = 0; i < todaysEvents.length; i++) {
+                let ev = todaysEvents[i];
+                let evTime = normalizeTime(ev.time);
+                
+                // Ha nincs benne ":", pl. "Délelőtt", azt kihagyjuk a konkrét zöldítésből
+                if (evTime === "99:99" || !evTime.includes(':')) continue; 
+
+                // Ha az aktuális idő már elmúlt (vagy egyenlő) az esemény idejével
+                if (currentTimeStr >= evTime) {
+                    activeEventId = ev.id;
+                } else {
+                    // Mivel sorba vannak rendezve, ha találunk egyet ami a jövőben van, 
+                    // az azt jelenti hogy az előző volt az aktuális.
+                    break; 
+                }
+            }
+
+            // Rárakjuk a class-t a megtalált kártyára
+            if (activeEventId !== null) {
+                let activeCard = document.querySelector(`.program-card[data-id='${activeEventId}']`);
+                if (activeCard) {
+                    activeCard.classList.add('active-event');
+                }
+            }
+        }
+
+        // --- IP ALAPÚ GOMB MEGJELENÍTÉS ---
         async function checkIpAndShowAdminButton() {
             try {
-                // Lekérdezzük a látogató IP címét
                 let ipResponse = await fetch('https://api.ipify.org?format=json');
                 let ipData = await ipResponse.json();
                 let userIp = ipData.ip;
 
-                // Elküldjük ellenőrzésre az Apps Scriptnek
                 let checkResponse = await fetch(scriptURL + '?type=checkIp&ip=' + encodeURIComponent(userIp));
                 let checkData = await checkResponse.json();
 
@@ -445,7 +544,7 @@
                 });
         }
 
-        // --- 2. RENDERELÉS ÉS RENDEZÉS ---
+        // --- RENDERELÉS ÉS RENDEZÉS ---
         function renderApp() {
             const container = document.getElementById("schedule-container");
             container.innerHTML = "";
@@ -453,25 +552,7 @@
             daysOrder.forEach(day => {
                 let dayEvents = scheduleData.filter(e => e.day === day);
                 
-                dayEvents.sort((a, b) => {
-                    const normalizeTime = (t) => {
-                        if (!t) return "99:99"; 
-                        if (t === "00:00") return "24:00"; 
-                        
-                        if (t.includes(':')) {
-                            let parts = t.split(':');
-                            let hour = parts[0].trim().padStart(2, '0');
-                            let min = parts[1].trim().padStart(2, '0');
-                            return `${hour}:${min}`;
-                        }
-                        return t; 
-                    };
-
-                    let timeA = normalizeTime(a.time);
-                    let timeB = normalizeTime(b.time);
-
-                    return timeA.localeCompare(timeB);
-                });
+                dayEvents.sort((a, b) => normalizeTime(a.time).localeCompare(normalizeTime(b.time)));
 
                 if (dayEvents.length === 0 && !isAdmin) return;
 
@@ -507,37 +588,36 @@
                 dayDiv.innerHTML = html;
                 container.appendChild(dayDiv);
             });
+
+            // Amint lefutott a renderelés, azonnal lefut az idő-ellenőrzés is
+            updateActiveEvent();
         }
 
-        // --- 3. ADMIN MÓD ---
+        // --- ADMIN MÓD ---
         async function toggleAdmin() {
             const btn = document.getElementById("adminToggle");
             const app = document.getElementById("app-content");
             
             if (isAdmin) {
-                // Kilépés admin módból
                 isAdmin = false;
-                btn.innerText = "Admin Mod: Off";
+                btn.innerText = "Admin Mód: KI";
                 btn.classList.remove("active");
                 app.classList.remove("admin-mode");
                 renderApp();
                 return;
             }
 
-            // Csak annyit ír ki: jelszo
             let pwd = prompt("jelszo");
-            if (!pwd) return; // Ha a Mégse gombra nyomott
+            if (!pwd) return; 
 
-            // Jelszó küldése a Google Sheets-nek ellenőrzésre
             try {
                 btn.innerText = "Ellenőrzés...";
-                
                 let response = await fetch(scriptURL + '?type=verifyAdmin&pwd=' + encodeURIComponent(pwd));
                 let result = await response.json();
                 
                 if (result.success === true) {
                     isAdmin = true;
-                    btn.innerText = "Admin Mod: On";
+                    btn.innerText = "Admin Mód: BE";
                     btn.classList.add("active");
                     app.classList.add("admin-mode");
                     renderApp();
@@ -552,7 +632,7 @@
             }
         }
 
-        // --- 4. CRUD MŰVELETEK ---
+        // --- CRUD MŰVELETEK ---
         function openModal(id = null, defaultDay = "Vasárnap") {
             const modal = document.getElementById("editModal");
             const title = document.getElementById("modalTitle");
@@ -609,7 +689,7 @@
             }
         }
 
-        // --- 5. DRAG & DROP ---
+        // --- DRAG & DROP ---
         let draggedId = null;
 
         function dragStart(e) {
@@ -636,7 +716,7 @@
             openModal(draggedId, targetDay);
         }
 
-        // --- 6. EXCEL SZINKRONIZÁCIÓ (Mentés) ---
+        // --- EXCEL SZINKRONIZÁCIÓ (Mentés) ---
         function syncWithExcel() {
             const status = document.getElementById("sync-status");
             status.innerText = "Mentés a Táblázatba...";
@@ -662,15 +742,12 @@
             });
         }
 
-        // --- 7. INDÍTÁS ÉS ÉLŐ (GLOBÁLIS) FRISSÍTÉS ---
+        // --- INDÍTÁS ÉS ÉLŐ (GLOBÁLIS) FRISSÍTÉS ---
         
-        // 1. IP ellenőrzés a gomb megjelenítéséhez
         checkIpAndShowAdminButton();
-        
-        // 2. Oldal betöltésekor letöltjük az adatokat
         fetchSchedule();
 
-        // 3. 10 másodpercenként lekérdezzük a szervert, hogy változott-e valami (Polling)
+        // 10 másodpercenként lekérdezzük a szervert (Polling)
         setInterval(() => {
             if (document.getElementById("editModal").classList.contains("active") || draggedId !== null) return;
 
@@ -684,6 +761,9 @@
                 })
                 .catch(error => console.error("Háttérfrissítési hiba:", error));
         }, 10000); 
+
+        // 60 másodpercenként frissítjük, hogy épp melyik az aktív program
+        setInterval(updateActiveEvent, 60000);
 
     </script>
 </body>
